@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>Mnemo</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.33.0/tabler-icons.min.css"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Mnemo"/>
+<meta name="theme-color" content="#f5f2eb"/>
+<meta name="mobile-web-app-capable" content="yes"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Georgia',serif;}
@@ -380,7 +385,13 @@ function loadState(){
 
 const notes    = Object.fromEntries(NOTE_PAGES.map(p=>[p,[]]));
 const pageNames= Object.fromEntries(COLOR_PAGES.map(p=>[p,'']));
-const dayOff   = Object.fromEntries(ALL_PAGES.map(p=>[p,0]));
+// Single global date offset — all pages share the same current day
+let globalOff = 0;
+// Keep dayOff as a proxy so existing references still work
+const dayOff = new Proxy({}, {
+  get: ()=>globalOff,
+  set: (_,__,v)=>{ globalOff=v; return true; }
+});
 const calEvs   = [];
 let calSel=new Date().getDate(), calMo=new Date().getMonth(), calYr=new Date().getFullYear();
 let openPopup  = null;
@@ -398,39 +409,45 @@ function fmtOff(off){
   return DS[d.getDay()]+', '+MOS[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();
 }
 function showDayPicker(pg){
-  // Remove any existing day picker
+  // Toggle: if picker already open, close it
   const existing=document.getElementById('daypicker-'+pg);
   if(existing){ existing.remove(); return; }
   const pageEl=document.getElementById('page-'+pg); if(!pageEl) return;
+
   const picker=document.createElement('div'); picker.id='daypicker-'+pg;
-  picker.style.cssText='position:absolute;top:38px;left:50%;transform:translateX(-50%);background:#fefefe;border:0.5px solid #ddd;border-radius:14px;padding:8px 10px;z-index:40;box-shadow:0 4px 20px rgba(0,0,0,0.14);display:flex;gap:6px;align-items:center;';
+  picker.style.cssText='position:absolute;top:38px;left:50%;transform:translateX(-50%);background:#fefefe;border:0.5px solid #ddd;border-radius:14px;padding:8px 10px;z-index:40;box-shadow:0 4px 20px rgba(0,0,0,0.14);display:flex;gap:4px;align-items:center;';
   picker.addEventListener('pointerdown',e=>e.stopPropagation());
-  for(let d=-3;d<=3;d++){
-    if(d===0) continue; // skip today slot (always accessible via today)
-    const btn=document.createElement('div');
-    const dateObj=offsetDate(dayOff[pg]+d);
+
+  for(let step=-3;step<=3;step++){
+    if(step===0) continue;
+    const absOffset=globalOff+step; // capture for closure
+    const dateObj=offsetDate(absOffset);
     const dayName=DS[dateObj.getDay()];
     const dayNum=dateObj.getDate();
-    const isCur=(dayOff[pg]+d)===dayOff[pg];
-    btn.style.cssText='display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;padding:5px 6px;border-radius:10px;min-width:30px;transition:background 0.1s;';
-    btn.innerHTML='<span style="font-size:9px;color:#aaa;font-family:system-ui,sans-serif;text-transform:uppercase;letter-spacing:0.3px;">'+dayName+'</span><span style="font-size:13px;color:#1a1a1a;font-family:system-ui,sans-serif;font-weight:500;">'+dayNum+'</span>';
+
+    const btn=document.createElement('div');
+    btn.style.cssText='display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;padding:5px 7px;border-radius:10px;min-width:32px;transition:background 0.1s;';
+    btn.innerHTML='<span style="font-size:9px;color:#aaa;font-family:system-ui,sans-serif;text-transform:uppercase;letter-spacing:0.3px;">'+dayName+'</span>'
+      +'<span style="font-size:13px;color:#1a1a1a;font-family:system-ui,sans-serif;font-weight:500;">'+dayNum+'</span>';
     btn.addEventListener('mouseenter',()=>btn.style.background='rgba(0,0,0,0.05)');
     btn.addEventListener('mouseleave',()=>btn.style.background='');
-    btn.addEventListener('click',e=>{ e.stopPropagation();
-      dayOff[pg]+=d; updateDateBar(pg);
-      if(NOTE_PAGES.includes(pg)) renderNotes(pg);
+    btn.addEventListener('click',e=>{
+      e.stopPropagation();
+      globalOff=absOffset; // jump directly to that absolute offset
+      ALL_PAGES.forEach(p=>updateDateBar(p));
+      NOTE_PAGES.forEach(p=>renderNotes(p));
       picker.remove();
     });
     picker.appendChild(btn);
-    // visual divider in the middle
-    if(d===-1){
+
+    if(step===-1){
       const sep=document.createElement('div');
       sep.style.cssText='width:1px;height:24px;background:#eee;flex-shrink:0;';
       picker.appendChild(sep);
     }
   }
+
   pageEl.appendChild(picker);
-  // close on outside click
   setTimeout(()=>{
     function dismiss(e){ if(!picker.contains(e.target)){ picker.remove(); document.removeEventListener('pointerdown',dismiss,true); } }
     document.addEventListener('pointerdown',dismiss,true);
@@ -440,7 +457,7 @@ function showDayPicker(pg){
 function updateDateBar(pg){
   const el=document.getElementById('dlbl-'+pg);
   if(!el) return;
-  el.textContent=fmtOff(dayOff[pg]).toUpperCase();
+  el.textContent=fmtOff(globalOff).toUpperCase();
   // Attach double-tap listener once
   if(!el._dtap){
     el._dtap=true; el.style.cursor='pointer'; let last=0;
@@ -452,9 +469,10 @@ ALL_PAGES.forEach(p=>updateDateBar(p));
 document.querySelectorAll('.dnarr').forEach(btn=>{
   btn.addEventListener('click',e=>{
     e.stopPropagation();
-    const pg=btn.dataset.pg, dir=parseInt(btn.dataset.dir);
-    dayOff[pg]+=dir; updateDateBar(pg);
-    if(NOTE_PAGES.includes(pg)) renderNotes(pg);
+    const dir=parseInt(btn.dataset.dir);
+    globalOff+=dir;
+    ALL_PAGES.forEach(p=>updateDateBar(p));
+    NOTE_PAGES.forEach(p=>renderNotes(p));
   });
 });
 
@@ -485,13 +503,13 @@ document.addEventListener('pointerdown', e=>{
 // ── NOTES ──
 function renderNotes(page){
   const area=document.getElementById('notes-'+page); if(!area) return; area.innerHTML='';
-  const key=offKey(dayOff[page]);
+  const key=offKey(globalOff);
   const filtered=notes[page].filter(n=>n.dateKey===key);
   if(!filtered.length){
     const m=document.createElement('div'); m.className='empty-day';
     const hint=document.createElement('div'); hint.style.cssText='margin-top:8px;font-size:11px;color:#d0cdc6;font-family:system-ui,sans-serif;';
     hint.textContent='double-tap to write';
-    m.textContent=dayOff[page]===0?'No notes yet.':'No notes for this day.';
+    m.textContent=globalOff===0?'No notes yet.':'No notes for this day.';
     area.appendChild(m); area.appendChild(hint); return;
   }
   filtered.forEach(n=>{
@@ -507,7 +525,15 @@ function renderNotes(page){
     if(n.sub){ const s=document.createElement('div'); s.className='note-sub'; s.textContent='↳ '+n.sub; inner.appendChild(s); }
     row.appendChild(chk); row.appendChild(inner);
     if(n.linkedPage){ const ld=document.createElement('div'); ld.className='note-ldot'; ld.style.background=COLORS[n.linkedPage]; ld.addEventListener('click',e=>{ e.stopPropagation(); showPage(n.linkedPage); }); row.appendChild(ld); }
-    row.addEventListener('dblclick',e=>{ e.stopPropagation(); closePopup(); showNotePopup(page,gi); });
+    // Pointer-based double-tap — works on both mobile and desktop
+    let _lastTap=0;
+    row.addEventListener('pointerdown',e=>{
+      if(e.target.classList.contains('note-check')||e.target.closest('.note-check')) return;
+      if(e.target.classList.contains('note-ldot')) return;
+      const now=Date.now();
+      if(_lastTap>0&&now-_lastTap<380){ e.preventDefault(); e.stopPropagation(); _lastTap=0; closePopup(); showNotePopup(page,gi); }
+      else _lastTap=now;
+    });
     area.appendChild(row);
   });
 }
@@ -562,13 +588,14 @@ function buildTimeDial(pop, n, page){
   setBtn.textContent='Set time';
   setBtn.style.cssText='margin:4px 2px 0;padding:6px;border-radius:10px;background:#1a1a1a;color:#fff;font-size:12px;text-align:center;cursor:pointer;font-family:system-ui,sans-serif;';
   setBtn.addEventListener('click',e=>{ e.stopPropagation();
-    if(tHour!==null && tMin!==null){
-      n.sub=tHour+':'+String(tMin).padStart(2,'0')+' '+tAmpm;
-    } else if(tHour!==null){
-      n.sub=tHour+':00 '+tAmpm;
+    if(tHour!==null){
+      n.sub=tHour+':'+(tMin!==null?String(tMin).padStart(2,'0'):'00')+' '+tAmpm;
+      renderNotes(page); saveState();
+      setBtn.textContent='✓ Time set';
+      setBtn.style.background='#2a6a2a';
+      setTimeout(()=>{ setBtn.textContent='Set time'; setBtn.style.background='#1a1a1a'; },1400);
     }
-    closePopup();
-    renderNotes(page); saveState();
+    // popup stays open — user can still link to page
   });
   pop.appendChild(setBtn);
 }
@@ -580,10 +607,51 @@ function showNotePopup(page,idx){
   pop.addEventListener('pointerdown',e=>e.stopPropagation());
   const n=notes[page][idx];
 
+  // Edit row
+  const er=document.createElement('div'); er.className='popup-row';
+  er.innerHTML=`<i class="ti ti-pencil" style="font-size:17px;color:#555;"></i><span>Edit note</span>`;
+  er.addEventListener('click',()=>{
+    closePopup();
+    const area=document.getElementById('notes-'+page); if(!area) return;
+    // Find the matching rendered row
+    const rows=[...area.querySelectorAll('.note-row')];
+    const targetRow=rows.find(r=>r.querySelector('.note-text')?.textContent===n.text);
+    if(!targetRow) return;
+    const textEl=targetRow.querySelector('.note-text'); if(!textEl) return;
+    const ta=document.createElement('textarea');
+    ta.value=n.text;
+    ta.style.cssText='flex:1;font-size:14px;color:#1a1a1a;background:none;border:none;outline:none;font-family:system-ui,sans-serif;line-height:1.45;resize:none;padding:0;caret-color:#1a1a1a;overflow:hidden;width:100%;';
+    ta.rows=1;
+    setTimeout(()=>{ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; },0);
+    ta.addEventListener('input',()=>{ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; });
+    const doneBtn=document.createElement('button');
+    doneBtn.textContent='Done';
+    doneBtn.style.cssText='flex-shrink:0;background:#1a1a1a;color:#fff;border:none;border-radius:14px;padding:3px 12px;font-size:11px;font-family:system-ui,sans-serif;cursor:pointer;margin-top:2px;';
+    let saved=false;
+    function saveEdit(){
+      if(saved) return; saved=true;
+      const t=ta.value.trim();
+      if(t){ n.text=t; } else { notes[page].splice(idx,1); }
+      renderNotes(page); saveState();
+    }
+    ta.addEventListener('keydown',e=>{
+      if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); saveEdit(); }
+      if(e.key==='Escape'){ saved=true; ta.remove(); doneBtn.remove(); textEl.style.display=''; }
+    });
+    ta.addEventListener('blur',()=>setTimeout(saveEdit,150));
+    doneBtn.addEventListener('pointerdown',e=>{ e.preventDefault(); saveEdit(); });
+    textEl.style.display='none';
+    const ldot=targetRow.querySelector('.note-ldot');
+    targetRow.insertBefore(ta, ldot||null);
+    targetRow.appendChild(doneBtn);
+    ta.focus(); ta.select();
+  });
+  pop.appendChild(er);
+
   // Mark done row
   const cr=document.createElement('div'); cr.className='popup-row';
   cr.innerHTML=`<i class="ti ti-${n.done?'circle':'circle-check'}" style="font-size:17px;color:#2a6a2a;"></i><span>${n.done?'Uncheck':'Mark done'}</span>`;
-  cr.addEventListener('click',()=>{ n.done=!n.done; renderNotes(page); closePopup(); }); pop.appendChild(cr);
+  cr.addEventListener('click',()=>{ n.done=!n.done; renderNotes(page); saveState(); closePopup(); }); pop.appendChild(cr);
 
   // Delete row
   const dr=document.createElement('div'); dr.className='popup-row';
@@ -602,7 +670,10 @@ function showNotePopup(page,idx){
     const linked=n.linkedPage===k;
     const r=document.createElement('div'); r.className='popup-row';
     r.innerHTML=`<div class="pdot" style="background:${COLORS[k]};${linked?'box-shadow:0 0 0 2px #1a1a1a':''}"></div><span>${pageNames[k]||k.charAt(0).toUpperCase()+k.slice(1)}</span>${linked?'<i class="ti ti-check" style="font-size:14px;color:#2a6a2a;margin-left:auto;"></i>':''}`;
-    r.addEventListener('click',()=>{ n.linkedPage=linked?null:k; renderNotes(page); saveState(); closePopup(); });
+    r.addEventListener('click',()=>{
+      n.linkedPage=linked?null:k; saveState(); renderNotes(page);
+      closePopup(); showNotePopup(page,idx);
+    });
     pop.appendChild(r);
   });
   document.getElementById('page-'+page).appendChild(pop); openPopup=pop;
@@ -660,7 +731,7 @@ function showInlineWriter(page){
     const t=ta.value.trim();
     row.remove();
     if(t){
-      notes[page].push({text:t,done:false,linkedPage:null,dateKey:offKey(dayOff[page]),sub:null});
+      notes[page].push({text:t,done:false,linkedPage:null,dateKey:offKey(globalOff),sub:null});
       renderNotes(page); saveState();
       showInlineWriter(page);
     }
@@ -911,11 +982,10 @@ function showCalAddPopup(){
     // Write note to the linked page with the event's date so it shows up when user navigates there
     notes[selPage].push({text,done:false,linkedPage:null,dateKey:eventDate,sub:timeStr||null,fromCal:true});
     // If the linked page is currently showing that date, re-render it
-    if(dayOff[selPage]!==undefined){
-      const pageD=offsetDate(dayOff[selPage]);
-      const pageDk=dk(pageD.getFullYear(),pageD.getMonth(),pageD.getDate());
-      if(pageDk===eventDate) renderNotes(selPage);
-    }
+    // Re-render if current global date matches the event date
+    const pageD=offsetDate(globalOff);
+    const pageDk=dk(pageD.getFullYear(),pageD.getMonth(),pageD.getDate());
+    if(pageDk===eventDate) NOTE_PAGES.forEach(p=>renderNotes(p));
     saveState(); closePopup(); renderCal();
   });
   pop.appendChild(cBtn);
@@ -953,9 +1023,9 @@ function renderCal(){
         const todayD=new Date(); todayD.setHours(0,0,0,0); targetD.setHours(0,0,0,0);
         const diffMs=targetD-todayD;
         const diffDays=Math.round(diffMs/(24*60*60*1000));
-        dayOff['main']=diffDays;
-        updateDateBar('main');
-        renderNotes('main');
+        globalOff=diffDays;
+        ALL_PAGES.forEach(p=>updateDateBar(p));
+        NOTE_PAGES.forEach(p=>renderNotes(p));
         showPage('main');
       } else {
         calTapLast=now;
@@ -983,4 +1053,3 @@ function renderSettings(){
 </script>
 </body>
 </html>
-
