@@ -35,7 +35,7 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
 .ctab:hover{transform:scale(1.15);}
 
 /* Notes */
-.notes-area{flex:1;overflow-y:auto;padding:4px 22px 8px;}
+.notes-area{flex:1;overflow-y:auto;padding:4px 22px 8px;cursor:text;}
 .notes-area::-webkit-scrollbar{width:3px;}
 .notes-area::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.12);border-radius:2px;}
 .note-row{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:0.5px solid rgba(0,0,0,0.07);cursor:pointer;}
@@ -50,12 +50,7 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
 .empty-day{font-size:13px;color:#ccc;font-style:italic;font-family:system-ui,sans-serif;padding:20px 0;}
 
 /* Input row */
-.input-row{padding:7px 22px 9px;display:flex;align-items:center;gap:9px;border-top:0.5px solid rgba(0,0,0,0.09);flex-shrink:0;background:inherit;}
-.note-input{flex:1;font-size:14px;padding:8px 12px;border:0.5px solid #c0bdb5;border-radius:22px;background:rgba(255,255,255,0.75);color:#1a1a1a;outline:none;font-family:system-ui,sans-serif;}
-.note-input:focus{border-color:#888;}
-.note-input::placeholder{color:#aaa;}
-.add-btn{width:32px;height:32px;border-radius:50%;border:none;color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;}
-.add-btn:hover{opacity:0.8;}
+
 
 /* Tool bar — color coded */
 .tool-bar{display:flex;justify-content:space-around;padding:7px 4px 12px;border-top:0.5px solid rgba(0,0,0,0.08);flex-shrink:0;background:inherit;}
@@ -165,6 +160,10 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
 .set-inp::placeholder{color:#ccc;}
 .set-info{font-size:12px;color:#aaa;font-family:system-ui,sans-serif;line-height:1.65;padding:6px 0;}
 
+/* Inline note writing */
+.inline-writer{width:100%;font-size:14px;color:#1a1a1a;background:none;border:none;outline:none;font-family:system-ui,sans-serif;line-height:1.45;resize:none;padding:0;caret-color:#1a1a1a;-webkit-appearance:none;appearance:none;overflow:hidden;}
+.inline-writer::placeholder{color:#c0bdb5;}
+
 /* Page tints */
 .tint-main{background:#f5f2eb;}
 .tint-navy{background:#eff0f4;}
@@ -189,7 +188,6 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="page-header"><span class="page-title">Mnemo</span><div class="home-dot"></div></div>
   <div class="color-tabs"><div class="ctab" style="background:#1e2d5a" data-page="navy"></div><div class="ctab" style="background:#301d4a" data-page="purple"></div><div class="ctab" style="background:#5c1014" data-page="maroon"></div><div class="ctab" style="background:#172414" data-page="forest"></div><div class="ctab" style="background:#7a6010" data-page="gold"></div><div class="ctab" style="background:#3c3c3c" data-page="slate"></div></div>
   <div class="notes-area" id="notes-main"></div>
-  <div class="input-row"><input class="note-input" placeholder="Write a note…" id="inp-main" autocomplete="off"/><button class="add-btn" style="background:#1a1a1a" id="abtn-main">+</button></div>
   <div class="tool-bar">
     <button class="tool-btn tb-timer"    onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
     <button class="tool-btn tb-memory"   onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
@@ -204,7 +202,6 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="page-header"><span class="page-title" id="ptitle-navy" style="color:#1e2d5a">&#8202;</span><div class="home-dot" onclick="goHome()"></div></div>
   <div class="color-tabs" id="ctabs-navy"></div>
   <div class="notes-area" id="notes-navy"></div>
-  <div class="input-row"><input class="note-input" placeholder="Write a note…" id="inp-navy" autocomplete="off"/><button class="add-btn" style="background:#1e2d5a" id="abtn-navy">+</button></div>
   <div class="tool-bar">
     <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
     <button class="tool-btn tb-memory" onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
@@ -219,7 +216,6 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="page-header"><span class="page-title" id="ptitle-purple" style="color:#301d4a">&#8202;</span><div class="home-dot" onclick="goHome()"></div></div>
   <div class="color-tabs" id="ctabs-purple"></div>
   <div class="notes-area" id="notes-purple"></div>
-  <div class="input-row"><input class="note-input" placeholder="Write a note…" id="inp-purple" autocomplete="off"/><button class="add-btn" style="background:#301d4a" id="abtn-purple">+</button></div>
   <div class="tool-bar">
     <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
     <button class="tool-btn tb-memory" onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
@@ -234,7 +230,6 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="page-header"><span class="page-title" id="ptitle-maroon" style="color:#5c1014">&#8202;</span><div class="home-dot" onclick="goHome()"></div></div>
   <div class="color-tabs" id="ctabs-maroon"></div>
   <div class="notes-area" id="notes-maroon"></div>
-  <div class="input-row"><input class="note-input" placeholder="Write a note…" id="inp-maroon" autocomplete="off"/><button class="add-btn" style="background:#5c1014" id="abtn-maroon">+</button></div>
   <div class="tool-bar">
     <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
     <button class="tool-btn tb-memory" onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
@@ -249,7 +244,6 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="page-header"><span class="page-title" id="ptitle-forest" style="color:#172414">&#8202;</span><div class="home-dot" onclick="goHome()"></div></div>
   <div class="color-tabs" id="ctabs-forest"></div>
   <div class="notes-area" id="notes-forest"></div>
-  <div class="input-row"><input class="note-input" placeholder="Write a note…" id="inp-forest" autocomplete="off"/><button class="add-btn" style="background:#172414" id="abtn-forest">+</button></div>
   <div class="tool-bar">
     <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
     <button class="tool-btn tb-memory" onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
@@ -264,7 +258,6 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="page-header"><span class="page-title" id="ptitle-gold" style="color:#7a6010">&#8202;</span><div class="home-dot" onclick="goHome()"></div></div>
   <div class="color-tabs" id="ctabs-gold"></div>
   <div class="notes-area" id="notes-gold"></div>
-  <div class="input-row"><input class="note-input" placeholder="Write a note…" id="inp-gold" autocomplete="off"/><button class="add-btn" style="background:#7a6010" id="abtn-gold">+</button></div>
   <div class="tool-bar">
     <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
     <button class="tool-btn tb-memory" onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
@@ -279,7 +272,6 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="page-header"><span class="page-title" id="ptitle-slate" style="color:#3c3c3c">&#8202;</span><div class="home-dot" onclick="goHome()"></div></div>
   <div class="color-tabs" id="ctabs-slate"></div>
   <div class="notes-area" id="notes-slate"></div>
-  <div class="input-row"><input class="note-input" placeholder="Write a note…" id="inp-slate" autocomplete="off"/><button class="add-btn" style="background:#3c3c3c" id="abtn-slate">+</button></div>
   <div class="tool-bar">
     <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
     <button class="tool-btn tb-memory" onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
@@ -367,12 +359,32 @@ const DS=['Su','Mo','Tu','We','Th','Fr','Sa'];
 const MOS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const M3=MOS.map(m=>m.slice(0,3));
 
+// ── localStorage persistence ──
+function saveState(){
+  try{
+    localStorage.setItem('mnemo_notes', JSON.stringify(notes));
+    localStorage.setItem('mnemo_pageNames', JSON.stringify(pageNames));
+    localStorage.setItem('mnemo_calEvs', JSON.stringify(calEvs));
+  }catch(e){}
+}
+function loadState(){
+  try{
+    const n=localStorage.getItem('mnemo_notes');
+    const pn=localStorage.getItem('mnemo_pageNames');
+    const ce=localStorage.getItem('mnemo_calEvs');
+    if(n){ const parsed=JSON.parse(n); NOTE_PAGES.forEach(p=>{ if(parsed[p]) notes[p]=parsed[p]; }); }
+    if(pn){ const parsed=JSON.parse(pn); COLOR_PAGES.forEach(p=>{ if(parsed[p]!==undefined) pageNames[p]=parsed[p]; }); }
+    if(ce){ const parsed=JSON.parse(ce); parsed.forEach(e=>calEvs.push(e)); }
+  }catch(e){}
+}
+
 const notes    = Object.fromEntries(NOTE_PAGES.map(p=>[p,[]]));
 const pageNames= Object.fromEntries(COLOR_PAGES.map(p=>[p,'']));
 const dayOff   = Object.fromEntries(ALL_PAGES.map(p=>[p,0]));
 const calEvs   = [];
 let calSel=new Date().getDate(), calMo=new Date().getMonth(), calYr=new Date().getFullYear();
 let openPopup  = null;
+loadState(); setTimeout(()=>{ updatePageTitles(); NOTE_PAGES.forEach(p=>renderNotes(p)); renderCal(); },0);
 let tTotal=3600, tLeft=3600, tRunning=false, tInterval=null;
 
 function offsetDate(off){ const d=new Date(); d.setDate(d.getDate()+off); return d; }
@@ -477,7 +489,10 @@ function renderNotes(page){
   const filtered=notes[page].filter(n=>n.dateKey===key);
   if(!filtered.length){
     const m=document.createElement('div'); m.className='empty-day';
-    m.textContent=dayOff[page]===0?'No notes yet.':'No notes for this day.'; area.appendChild(m); return;
+    const hint=document.createElement('div'); hint.style.cssText='margin-top:8px;font-size:11px;color:#d0cdc6;font-family:system-ui,sans-serif;';
+    hint.textContent='double-tap to write';
+    m.textContent=dayOff[page]===0?'No notes yet.':'No notes for this day.';
+    area.appendChild(m); area.appendChild(hint); return;
   }
   filtered.forEach(n=>{
     const gi=notes[page].indexOf(n);
@@ -486,7 +501,7 @@ function renderNotes(page){
     chk.innerHTML=n.done
       ?'<svg viewBox="0 0 17 17"><circle cx="8.5" cy="8.5" r="7.5" fill="#2a6a2a"/><polyline points="4.5,8.5 7.5,11.5 13,5.5" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
       :'<svg viewBox="0 0 17 17"><circle cx="8.5" cy="8.5" r="7.5" fill="none" stroke="#c0bdb5" stroke-width="1.2"/></svg>';
-    chk.addEventListener('click',e=>{ e.stopPropagation(); n.done=!n.done; renderNotes(page); });
+    chk.addEventListener('click',e=>{ e.stopPropagation(); n.done=!n.done; renderNotes(page); saveState(); });
     const inner=document.createElement('div'); inner.className='note-inner';
     const txt=document.createElement('div'); txt.className='note-text'+(n.done?' done':''); txt.textContent=n.text; inner.appendChild(txt);
     if(n.sub){ const s=document.createElement('div'); s.className='note-sub'; s.textContent='↳ '+n.sub; inner.appendChild(s); }
@@ -549,9 +564,11 @@ function buildTimeDial(pop, n, page){
   setBtn.addEventListener('click',e=>{ e.stopPropagation();
     if(tHour!==null && tMin!==null){
       n.sub=tHour+':'+String(tMin).padStart(2,'0')+' '+tAmpm;
-      renderNotes(page);
+    } else if(tHour!==null){
+      n.sub=tHour+':00 '+tAmpm;
     }
     closePopup();
+    renderNotes(page); saveState();
   });
   pop.appendChild(setBtn);
 }
@@ -571,7 +588,7 @@ function showNotePopup(page,idx){
   // Delete row
   const dr=document.createElement('div'); dr.className='popup-row';
   dr.innerHTML=`<i class="ti ti-trash" style="font-size:17px;color:#c04040;"></i><span style="color:#c04040;">Delete</span>`;
-  dr.addEventListener('click',()=>{ notes[page].splice(idx,1); renderNotes(page); closePopup(); }); pop.appendChild(dr);
+  dr.addEventListener('click',()=>{ notes[page].splice(idx,1); renderNotes(page); saveState(); closePopup(); }); pop.appendChild(dr);
 
   // Divider + time dial
   const dv1=document.createElement('div'); dv1.className='pdiv'; pop.appendChild(dv1);
@@ -585,18 +602,81 @@ function showNotePopup(page,idx){
     const linked=n.linkedPage===k;
     const r=document.createElement('div'); r.className='popup-row';
     r.innerHTML=`<div class="pdot" style="background:${COLORS[k]};${linked?'box-shadow:0 0 0 2px #1a1a1a':''}"></div><span>${pageNames[k]||k.charAt(0).toUpperCase()+k.slice(1)}</span>${linked?'<i class="ti ti-check" style="font-size:14px;color:#2a6a2a;margin-left:auto;"></i>':''}`;
-    r.addEventListener('click',()=>{ n.linkedPage=linked?null:k; renderNotes(page); closePopup(); });
+    r.addEventListener('click',()=>{ n.linkedPage=linked?null:k; renderNotes(page); saveState(); closePopup(); });
     pop.appendChild(r);
   });
   document.getElementById('page-'+page).appendChild(pop); openPopup=pop;
 }
 
+NOTE_PAGES.forEach(page=>{ renderNotes(page); });
+
+// ── Tap empty area → inline writer appears directly on page ──
+function showInlineWriter(page){
+  closePopup();
+  const area=document.getElementById('notes-'+page); if(!area) return;
+  if(area.querySelector('.writer-row')) return;
+
+  // A row containing the textarea + Done button side by side
+  const row=document.createElement('div');
+  row.className='writer-row';
+  row.style.cssText='display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:0.5px solid rgba(0,0,0,0.07);';
+
+  // Fake check circle to match note rows
+  const circle=document.createElement('div');
+  circle.style.cssText='width:17px;height:17px;border-radius:50%;border:1.2px solid #c0bdb5;flex-shrink:0;margin-top:2px;';
+  row.appendChild(circle);
+
+  const ta=document.createElement('textarea');
+  ta.className='inline-writer';
+  ta.placeholder='Write a note…';
+  ta.rows=1;
+  ta.style.cssText='flex:1;font-size:14px;color:#1a1a1a;background:none;border:none;outline:none;font-family:system-ui,sans-serif;line-height:1.45;resize:none;padding:0;caret-color:#1a1a1a;overflow:hidden;';
+  row.appendChild(ta);
+
+  const doneBtn=document.createElement('button');
+  doneBtn.textContent='Done';
+  doneBtn.style.cssText='flex-shrink:0;background:#1a1a1a;color:#fff;border:none;border-radius:14px;padding:3px 12px;font-size:11px;font-family:system-ui,sans-serif;cursor:pointer;margin-top:2px;opacity:0;transition:opacity 0.15s;';
+  row.appendChild(doneBtn);
+
+  let idleTimer=null;
+  function resetIdle(){
+    clearTimeout(idleTimer);
+    idleTimer=setTimeout(()=>{ if(ta.value.trim()) commit(); }, 1500);
+  }
+
+  ta.addEventListener('input',()=>{
+    ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px';
+    doneBtn.style.opacity=ta.value.trim()?'1':'0';
+    resetIdle();
+  });
+
+  ta.addEventListener('keydown',e=>{
+    if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); commit(); }
+    if(e.key==='Escape'){ clearTimeout(idleTimer); row.remove(); }
+  });
+
+  function commit(){
+    clearTimeout(idleTimer);
+    const t=ta.value.trim();
+    row.remove();
+    if(t){
+      notes[page].push({text:t,done:false,linkedPage:null,dateKey:offKey(dayOff[page]),sub:null});
+      renderNotes(page); saveState();
+      showInlineWriter(page);
+    }
+  }
+
+  doneBtn.addEventListener('pointerdown',e=>{ e.preventDefault(); commit(); });
+  area.appendChild(row);
+  ta.focus();
+}
+
+// Tap empty notes area → open inline writer
 NOTE_PAGES.forEach(page=>{
-  const inp=document.getElementById('inp-'+page), btn=document.getElementById('abtn-'+page);
-  if(!inp||!btn) return;
-  function add(){ const t=inp.value.trim(); if(!t) return; notes[page].push({text:t,done:false,linkedPage:null,dateKey:offKey(dayOff[page]),sub:null}); inp.value=''; renderNotes(page); }
-  btn.addEventListener('click',add); inp.addEventListener('keydown',e=>{ if(e.key==='Enter') add(); });
-  renderNotes(page);
+  const area=document.getElementById('notes-'+page); if(!area) return;
+  area.addEventListener('click',e=>{
+    if(e.target===area) showInlineWriter(page);
+  });
 });
 
 // ── TIMER ──
@@ -752,7 +832,7 @@ function renderMemory(){
   const clr=document.createElement('button'); clr.className='clear-btn'; clr.textContent='Clear all memory';
   clr.addEventListener('click',()=>{
     // Wipe simulated past items from PAST array
-    PAST.length=0;
+    PAST.length=0; saveState();
     p.innerHTML='';
     const gone=document.createElement('div'); gone.className='mem-hint'; gone.style.cssText='text-align:center;padding:24px 0;color:#ccc;font-style:italic;font-size:13px;font-family:system-ui,sans-serif;';
     gone.textContent='Memory cleared.'; p.appendChild(gone);
@@ -836,7 +916,7 @@ function showCalAddPopup(){
       const pageDk=dk(pageD.getFullYear(),pageD.getMonth(),pageD.getDate());
       if(pageDk===eventDate) renderNotes(selPage);
     }
-    closePopup(); renderCal();
+    saveState(); closePopup(); renderCal();
   });
   pop.appendChild(cBtn);
   document.getElementById('page-cal').appendChild(pop); openPopup=pop;
@@ -898,7 +978,7 @@ function renderCal(){
 // ── SETTINGS ──
 function renderSettings(){
   const c=document.getElementById('set-names'); c.innerHTML='';
-  COLOR_PAGES.forEach(p=>{ const row=document.createElement('div'); row.className='set-row'; const dot=document.createElement('div'); dot.className='set-dot'; dot.style.background=COLORS[p]; const inp=document.createElement('input'); inp.className='set-inp'; inp.type='text'; inp.placeholder='Name this page...'; inp.value=pageNames[p]; inp.maxLength=24; inp.addEventListener('input',()=>{ pageNames[p]=inp.value.trim(); updatePageTitles(); }); row.appendChild(dot); row.appendChild(inp); c.appendChild(row); });
+  COLOR_PAGES.forEach(p=>{ const row=document.createElement('div'); row.className='set-row'; const dot=document.createElement('div'); dot.className='set-dot'; dot.style.background=COLORS[p]; const inp=document.createElement('input'); inp.className='set-inp'; inp.type='text'; inp.placeholder='Name this page...'; inp.value=pageNames[p]; inp.maxLength=24; inp.addEventListener('input',()=>{ pageNames[p]=inp.value.trim(); updatePageTitles(); saveState(); }); row.appendChild(dot); row.appendChild(inp); c.appendChild(row); });
 }
 </script>
 </body>
