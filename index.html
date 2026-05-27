@@ -8,15 +8,53 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Mnemo"/>
-<meta name="theme-color" content="#f5f2eb"/>
+<meta name="theme-color" content="#faf9f5"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
+
+:root {
+  --bg:     #faf9f5;
+  --bg2:    #edeae2;
+  --bg3:    #e4e0d6;
+  --text:   #1a1a1a;
+  --text2:  #5a5a5a;
+  --text3:  #aaa;
+  --border: rgba(0,0,0,0.07);
+  --border2:rgba(0,0,0,0.12);
+  --input-bg: rgba(255,255,255,0.75);
+  --popup-bg: #fefefe;
+  --chip-bg:  rgba(255,255,255,0.65);
+  --chip-border: #c8c5bd;
+  --tool-bar-bg: #f5f2eb;
+  --home-dot-bg: #fff;
+  --home-dot-border: #c8c5bd;
+}
+[data-theme="dark"] {
+  --bg:     #141412;
+  --bg2:    #1c1b18;
+  --bg3:    #252420;
+  --text:   #e8e4db;
+  --text2:  #888;
+  --text3:  #555;
+  --border: rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.13);
+  --input-bg: rgba(40,38,34,0.9);
+  --popup-bg: #1c1b18;
+  --chip-bg:  rgba(40,38,34,0.8);
+  --chip-border: #3a3834;
+  --tool-bar-bg: #141412;
+  --home-dot-bg: #252420;
+  --home-dot-border: #3a3834;
+}
+body { transition: background 0.3s, color 0.3s; }
+*{-webkit-tap-highlight-color:transparent;}
+.date-bar,.dlabel,.dnarr,.page-title,.color-tabs,.ctab{user-select:none;-webkit-user-select:none;}
 body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Georgia',serif;}
-.phone{width:375px;height:812px;background:#f5f2eb;border-radius:50px;overflow:hidden;border:10px solid #1a1a1a;display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(0,0,0,0.35);}
+.phone{width:375px;height:812px;background:var(--bg);border-radius:50px;overflow:hidden;border:10px solid #1a1a1a;display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(0,0,0,0.35);}
 .status-bar{padding:14px 28px 4px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
-.status-time{font-size:14px;font-weight:600;color:#1a1a1a;font-family:system-ui,sans-serif;}
-.status-icons{display:flex;gap:6px;color:#1a1a1a;}
+.status-time{font-size:14px;font-weight:600;color:var(--text);font-family:system-ui,sans-serif;}
+.status-icons{display:flex;gap:6px;color:var(--text);}
 .status-icons i{font-size:15px;}
 .screen{flex:1;overflow:hidden;position:relative;}
 .page{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden;}
@@ -26,12 +64,12 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
 .date-bar{display:flex;align-items:center;justify-content:center;gap:3px;padding:5px 16px 2px;flex-shrink:0;}
 .dnarr{background:none;border:none;cursor:pointer;color:#222;font-size:14px;font-weight:800;line-height:1;padding:2px 3px;user-select:none;-webkit-user-select:none;}
 .dnarr:hover{color:#000;}
-.dlabel{font-size:11px;color:#555;letter-spacing:0.5px;font-family:system-ui,sans-serif;text-transform:uppercase;}
+.dlabel{font-size:11px;color:var(--text2);letter-spacing:0.5px;font-family:system-ui,sans-serif;text-transform:uppercase;}
 
 /* Page header */
 .page-header{padding:3px 22px 4px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.page-title{font-size:20px;font-weight:400;color:#1a1a1a;font-family:'Georgia',serif;}
-.home-dot{width:24px;height:24px;border-radius:50%;cursor:pointer;flex-shrink:0;background:#fff!important;border:1.5px solid #c8c5bd!important;box-shadow:0 1px 4px rgba(0,0,0,0.10);}
+.page-title{font-size:20px;font-weight:400;color:var(--text);font-family:'Georgia',serif;}
+.home-dot{width:24px;height:24px;border-radius:50%;cursor:pointer;flex-shrink:0;background:var(--home-dot-bg)!important;border:1.5px solid var(--home-dot-border)!important;box-shadow:0 1px 4px rgba(0,0,0,0.10);}
 .home-dot:hover{opacity:0.8;}
 
 /* Color tabs */
@@ -42,73 +80,71 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
 /* Notes */
 .notes-area{flex:1;overflow-y:auto;padding:4px 22px 8px;cursor:text;}
 .notes-area::-webkit-scrollbar{width:3px;}
-.notes-area::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.12);border-radius:2px;}
-.note-row{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:0.5px solid rgba(0,0,0,0.07);cursor:pointer;}
+.notes-area::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.note-row{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:0.5px solid var(--border);cursor:pointer;}
 .note-row:last-child{border-bottom:none;}
 .note-inner{flex:1;}
-.note-text{font-size:14px;color:#1a1a1a;line-height:1.45;font-family:system-ui,sans-serif;user-select:none;}
+.note-text{font-size:14px;color:var(--text);line-height:1.45;font-family:system-ui,sans-serif;user-select:none;}
 .note-text.done{color:#bbb;text-decoration:line-through;}
-.note-sub{font-size:10px;color:#aaa;font-family:system-ui,sans-serif;margin-top:2px;}
+.note-sub{font-size:10px;color:var(--text3);font-family:system-ui,sans-serif;margin-top:2px;}
 .note-check{width:17px;height:17px;flex-shrink:0;margin-top:1px;cursor:pointer;}
 .note-check svg{width:17px;height:17px;}
 .note-ldot{width:13px;height:13px;border-radius:50%;flex-shrink:0;margin-top:3px;cursor:pointer;}
-.empty-day{font-size:13px;color:#ccc;font-style:italic;font-family:system-ui,sans-serif;padding:20px 0;}
+.empty-day{font-size:13px;color:var(--text3);font-style:italic;font-family:system-ui,sans-serif;padding:20px 0;}
 
 /* Input row */
 
 
 /* Tool bar — color coded */
-.tool-bar{display:flex;justify-content:space-around;padding:7px 4px 12px;border-top:0.5px solid rgba(0,0,0,0.08);flex-shrink:0;background:inherit;}
-.tool-btn{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:5px 8px;border-radius:10px;border:none;background:none;}
-.tool-btn:hover{background:rgba(0,0,0,0.04);}
-.tool-btn i{font-size:20px;}
-.tool-btn span{font-size:9px;letter-spacing:0.3px;font-family:system-ui,sans-serif;font-weight:600;}
-.tb-timer   i,.tb-timer   span{color:#1e2d5a;}
-.tb-memory  i,.tb-memory  span{color:#5c1014;}
-.tb-cal     i,.tb-cal     span{color:#172414;}
-.tb-settings i,.tb-settings span{color:#7a6010;}
-.tb-home    i,.tb-home    span{color:#3c3c3c;}
+.tool-bar{display:flex;justify-content:space-around;padding:10px 4px 16px;border-top:0.5px solid var(--border);flex-shrink:0;background:var(--bg);}
+.tool-btn{display:flex;align-items:center;justify-content:center;cursor:pointer;padding:8px 14px;border-radius:12px;border:none;background:none;}
+.tool-btn:hover{background:rgba(0,0,0,0.05);}
+.tool-btn i{font-size:28px;color:#000000 !important;}
+[data-theme="dark"] .tool-btn i{color:#ffffff !important;}
+.nav-sym{font-size:22px;color:#000000;line-height:1;font-style:normal;display:block;}
+[data-theme="dark"] .nav-sym{color:#ffffff;}
+[data-theme="dark"] .tool-bar{border-top-color:var(--border);}
 
 /* Generic note popup */
-.popup{position:absolute;background:#fefefe;border:0.5px solid #ddd;border-radius:14px;padding:10px 8px;z-index:30;box-shadow:0 4px 24px rgba(0,0,0,0.16);}
+.popup{position:absolute;background:var(--popup-bg);border:0.5px solid var(--border2);border-radius:14px;padding:10px 8px;z-index:30;box-shadow:0 4px 24px rgba(0,0,0,0.16);}
 .popup-row{display:flex;align-items:center;gap:9px;padding:7px 10px;cursor:pointer;border-radius:8px;}
-.popup-row:hover{background:#f5f2eb;}
-.popup-row span{font-size:13px;color:#1a1a1a;font-family:system-ui,sans-serif;}
+.popup-row:hover{background:var(--bg);}
+.popup-row span{font-size:13px;color:var(--text);font-family:system-ui,sans-serif;}
 .pdot{width:15px;height:15px;border-radius:50%;flex-shrink:0;}
-.pdiv{height:0.5px;background:#eee;margin:4px 0;}
-.plbl{font-size:10px;color:#bbb;letter-spacing:0.7px;text-transform:uppercase;padding:4px 10px 2px;font-family:system-ui,sans-serif;}
+.pdiv{height:0.5px;background:var(--border2);margin:4px 0;}
+.plbl{font-size:10px;color:var(--text3);letter-spacing:0.7px;text-transform:uppercase;padding:4px 10px 2px;font-family:system-ui,sans-serif;}
 
 /* Big popup (memory schedule + cal add) */
-.big-popup{position:absolute;background:#fefefe;border:0.5px solid #ddd;border-radius:16px;padding:14px 14px 13px;z-index:30;box-shadow:0 6px 30px rgba(0,0,0,0.18);left:12px;right:12px;bottom:88px;}
-.bp-title{font-size:13px;font-weight:600;color:#1a1a1a;padding-bottom:10px;border-bottom:0.5px solid #eee;margin-bottom:11px;font-family:system-ui,sans-serif;}
-.bp-lbl{font-size:10px;color:#bbb;letter-spacing:0.7px;text-transform:uppercase;display:block;margin-bottom:6px;font-family:system-ui,sans-serif;}
-.bp-inp{width:100%;padding:8px 11px;border:0.5px solid #c8c5bd;border-radius:10px;font-size:14px;color:#1a1a1a;background:#fff;outline:none;font-family:system-ui,sans-serif;margin-bottom:10px;}
+.big-popup{position:absolute;background:var(--popup-bg);border:0.5px solid var(--border2);border-radius:16px;padding:14px 14px 13px;z-index:30;box-shadow:0 6px 30px rgba(0,0,0,0.18);left:12px;right:12px;bottom:88px;}
+.bp-title{font-size:13px;font-weight:600;color:var(--text);padding-bottom:10px;border-bottom:0.5px solid #eee;margin-bottom:11px;font-family:system-ui,sans-serif;}
+.bp-lbl{font-size:10px;color:var(--text3);letter-spacing:0.7px;text-transform:uppercase;display:block;margin-bottom:6px;font-family:system-ui,sans-serif;}
+.bp-inp{width:100%;padding:8px 11px;border:0.5px solid var(--border2);border-radius:10px;font-size:14px;color:var(--text);background:var(--input-bg);outline:none;font-family:system-ui,sans-serif;margin-bottom:10px;}
 .bp-inp:focus{border-color:#888;}
-.bp-time{width:100%;padding:7px 11px;border:0.5px solid #c8c5bd;border-radius:10px;font-size:13px;color:#1a1a1a;background:#fff;outline:none;font-family:system-ui,sans-serif;margin-bottom:10px;}
+.bp-time{width:100%;padding:7px 11px;border:0.5px solid var(--border2);border-radius:10px;font-size:13px;color:var(--text);background:var(--input-bg);outline:none;font-family:system-ui,sans-serif;margin-bottom:10px;}
 .pc-row{display:flex;gap:8px;margin-bottom:11px;flex-wrap:wrap;align-items:center;}
 .pc{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;flex-shrink:0;transition:transform 0.1s;}
 .pc:hover{transform:scale(1.12);}
 .pc-main{background:#fff;border:1.5px solid #c8c5bd!important;box-shadow:0 1px 3px rgba(0,0,0,0.12);}
 .pc-sel{border-color:#1a1a1a!important;box-shadow:0 0 0 1.5px #1a1a1a;}
 .wrow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
-.wchip{padding:5px 11px;border-radius:18px;border:0.5px solid #c8c5bd;background:rgba(245,242,235,0.9);font-size:12px;color:#1a1a1a;cursor:pointer;font-family:system-ui,sans-serif;}
-.wchip:hover{background:#fff;}
+.wchip{padding:5px 11px;border-radius:18px;border:0.5px solid var(--border2);background:var(--bg2);font-size:12px;color:var(--text);cursor:pointer;font-family:system-ui,sans-serif;}
+.wchip:hover{background:var(--bg3);}
 .wchip.wsel{background:#1a1a1a;color:#fff;border-color:#1a1a1a;}
-.dinp{width:100%;padding:7px 10px;border:0.5px solid #c8c5bd;border-radius:10px;font-size:13px;color:#1a1a1a;background:#fff;outline:none;font-family:system-ui,sans-serif;margin-bottom:10px;display:none;}
-.bp-confirm{width:100%;padding:9px;border-radius:10px;border:none;background:#1a1a1a;color:#fff;font-size:13px;cursor:pointer;font-family:system-ui,sans-serif;}
+.dinp{width:100%;padding:7px 10px;border:0.5px solid var(--border2);border-radius:10px;font-size:13px;color:var(--text);background:var(--input-bg);outline:none;font-family:system-ui,sans-serif;margin-bottom:10px;display:none;}
+.bp-confirm{width:100%;padding:9px;border-radius:10px;border:none;background:var(--text);color:var(--bg);font-size:13px;cursor:pointer;font-family:system-ui,sans-serif;}
 .bp-confirm:hover{opacity:0.85;}
 
 /* Memory */
 .mem-panel{flex:1;overflow-y:auto;padding:10px 22px 12px;}
 .mem-panel::-webkit-scrollbar{width:3px;}
-.mem-hint{font-size:11px;color:#c0bdb5;font-family:system-ui,sans-serif;margin-bottom:12px;font-style:italic;}
-.mem-sec{font-size:10px;color:#aaa;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px;font-family:system-ui,sans-serif;}
+.mem-hint{font-size:11px;color:var(--text3);font-family:system-ui,sans-serif;margin-bottom:12px;font-style:italic;}
+.mem-sec{font-size:10px;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px;font-family:system-ui,sans-serif;}
 .mem-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px;}
-.mchip{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:18px;border:0.5px solid #c8c5bd;background:rgba(255,255,255,0.65);font-size:13px;color:#1a1a1a;cursor:pointer;font-family:system-ui,sans-serif;user-select:none;-webkit-user-select:none;touch-action:none;}
+.mchip{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:18px;border:0.5px solid var(--chip-border);background:var(--chip-bg);font-size:13px;color:var(--text);cursor:pointer;font-family:system-ui,sans-serif;user-select:none;-webkit-user-select:none;touch-action:none;}
 .mchip.ghost{opacity:0.36;font-style:italic;}
 .mchip.used{opacity:0.2;pointer-events:none;text-decoration:line-through;}
 .mfreq{font-size:10px;color:#aaa;}
-.clear-btn{width:100%;padding:10px;border-radius:10px;border:0.5px solid #e0b0b0;background:none;color:#c04040;font-size:13px;cursor:pointer;font-family:system-ui,sans-serif;margin-top:4px;}
+.clear-btn{width:100%;padding:10px;border-radius:10px;border:0.5px solid rgba(192,64,64,0.4);background:none;color:#c04040;font-size:13px;cursor:pointer;font-family:system-ui,sans-serif;margin-top:4px;}
 
 /* Timer */
 .timer-panel{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:20px;}
@@ -118,71 +154,91 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
 .tdisp{font-size:34px;font-weight:400;color:#1a1a1a;letter-spacing:2px;font-family:'Georgia',serif;}
 .tlbl{font-size:11px;color:#999;font-family:system-ui,sans-serif;margin-top:2px;}
 .preset-row{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;}
-.pbtn{padding:6px 14px;border-radius:22px;border:0.5px solid #c0bdb5;background:rgba(255,255,255,0.6);font-size:13px;color:#1a1a1a;cursor:pointer;font-family:system-ui,sans-serif;}
+.pbtn{padding:6px 14px;border-radius:22px;border:0.5px solid var(--border2);background:var(--bg2);font-size:13px;color:var(--text);cursor:pointer;font-family:system-ui,sans-serif;}
 .pbtn.psel{background:#1a1a1a;color:#fff;border-color:#1a1a1a;}
 .tctrls{display:flex;gap:16px;margin-top:4px;}
-.tctrl{width:50px;height:50px;border-radius:50%;border:0.5px solid #c0bdb5;background:rgba(255,255,255,0.7);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.tctrl{width:50px;height:50px;border-radius:50%;border:0.5px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;}
 .tctrl:hover{opacity:0.8;}
-.tctrl i{font-size:22px;color:#1a1a1a;}
+.tctrl i{font-size:22px;color:var(--text);}
 .tctrl.pri{background:#1a1a1a;border-color:#1a1a1a;}
 .tctrl.pri i{color:#fff;}
-.tmsg{font-size:12px;color:#888;text-align:center;margin-top:4px;font-family:system-ui,sans-serif;}
+.tmsg{font-size:12px;color:var(--text3);text-align:center;margin-top:4px;font-family:system-ui,sans-serif;}
 
 /* Calendar */
 .cal-panel{flex:1;overflow-y:auto;padding:8px 16px 12px;}
 .cal-panel::-webkit-scrollbar{width:3px;}
 .cal-mnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
 .cal-mbtn{background:none;border:none;font-size:20px;cursor:pointer;color:#1a1a1a;padding:0 4px;line-height:1;}
-.cal-mlbl{font-size:14px;color:#1a1a1a;font-family:'Georgia',serif;}
+.cal-mlbl{font-size:14px;color:var(--text);font-family:'Georgia',serif;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;margin-bottom:10px;}
-.chd{display:flex;align-items:center;justify-content:center;height:22px;font-size:10px;color:#aaa;font-family:system-ui,sans-serif;}
-.ccell{display:flex;align-items:center;justify-content:center;height:32px;cursor:pointer;border-radius:50%;font-size:13px;color:#1a1a1a;font-family:system-ui,sans-serif;position:relative;}
-.ccell:hover{background:rgba(0,0,0,0.06);}
+.chd{display:flex;align-items:center;justify-content:center;height:22px;font-size:10px;color:var(--text3);font-family:system-ui,sans-serif;}
+.ccell{display:flex;align-items:center;justify-content:center;height:32px;cursor:pointer;border-radius:50%;font-size:13px;color:var(--text);font-family:system-ui,sans-serif;position:relative;}
+.ccell:hover{background:var(--border);}
 .ccell.ctoday{background:#1a1a1a;color:#fff;font-weight:600;}
 .ccell.csel{background:#7a6010;color:#fff;}
 .ccell.cempty{cursor:default;}
 .evdot{position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:#7a6010;}
 .ctoday .evdot,.csel .evdot{background:rgba(255,255,255,0.8);}
 .ev-title{font-size:10px;color:#aaa;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px;font-family:system-ui,sans-serif;}
-.ev-row{display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:9px;border:0.5px solid rgba(0,0,0,0.08);background:rgba(255,255,255,0.7);margin-bottom:7px;cursor:pointer;}
-.ev-row:hover{background:#fff;}
+.ev-row{display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:9px;border:0.5px solid var(--border);background:var(--bg2);margin-bottom:7px;cursor:pointer;}
+.ev-row:hover{background:var(--bg3);}
 .ev-cdot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
-.ev-text{font-size:13px;color:#1a1a1a;flex:1;font-family:system-ui,sans-serif;}
-.ev-time{font-size:11px;color:#aaa;font-family:system-ui,sans-serif;}
-.no-ev{font-size:13px;color:#ccc;font-style:italic;font-family:system-ui,sans-serif;padding:10px 0;}
-.cal-add-btn{width:100%;padding:9px;border-radius:10px;border:0.5px dashed #c0bdb5;background:none;color:#aaa;font-size:13px;cursor:pointer;text-align:left;font-family:system-ui,sans-serif;margin-top:4px;}
-.cal-add-btn:hover{border-color:#888;color:#666;}
+.ev-text{font-size:13px;color:var(--text);flex:1;font-family:system-ui,sans-serif;}
+.ev-time{font-size:11px;color:var(--text3);font-family:system-ui,sans-serif;}
+.no-ev{font-size:13px;color:var(--text3);font-style:italic;font-family:system-ui,sans-serif;padding:10px 0;}
+.cal-add-btn{width:100%;padding:9px;border-radius:10px;border:0.5px dashed var(--border2);background:none;color:var(--text3);font-size:13px;cursor:pointer;text-align:left;font-family:system-ui,sans-serif;margin-top:4px;}
+.cal-add-btn:hover{border-color:var(--text2);color:var(--text2);}
 
 /* Settings */
 .set-panel{flex:1;overflow-y:auto;padding:16px 22px;}
 .set-sec{margin-bottom:20px;}
-.set-sec-title{font-size:10px;color:#aaa;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:10px;font-family:system-ui,sans-serif;}
-.set-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.06);}
+.set-sec-title{font-size:10px;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:10px;font-family:system-ui,sans-serif;}
+.set-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);}
 .set-row:last-child{border-bottom:none;}
 .set-dot{width:20px;height:20px;border-radius:50%;flex-shrink:0;}
-.set-inp{flex:1;font-size:14px;padding:5px 9px;border:0.5px solid #c8c5bd;border-radius:8px;background:rgba(255,255,255,0.7);color:#1a1a1a;outline:none;font-family:system-ui,sans-serif;}
+.set-inp{flex:1;font-size:14px;padding:5px 9px;border:0.5px solid var(--border2);border-radius:8px;background:var(--input-bg);color:var(--text);outline:none;font-family:system-ui,sans-serif;}
 .set-inp:focus{border-color:#888;}
-.set-inp::placeholder{color:#ccc;}
-.set-info{font-size:12px;color:#aaa;font-family:system-ui,sans-serif;line-height:1.65;padding:6px 0;}
+.set-inp::placeholder{color:var(--text3);}
+.set-info{font-size:12px;color:var(--text2);font-family:system-ui,sans-serif;line-height:1.65;padding:6px 0;}
 
 /* Inline note writing */
-.inline-writer{width:100%;font-size:14px;color:#1a1a1a;background:none;border:none;outline:none;font-family:system-ui,sans-serif;line-height:1.45;resize:none;padding:0;caret-color:#1a1a1a;-webkit-appearance:none;appearance:none;overflow:hidden;}
-.inline-writer::placeholder{color:#c0bdb5;}
+.inline-writer{width:100%;font-size:14px;color:var(--text);background:none;border:none;outline:none;font-family:system-ui,sans-serif;line-height:1.45;resize:none;padding:0;caret-color:var(--text);-webkit-appearance:none;appearance:none;overflow:hidden;}
+.inline-writer::placeholder{color:var(--text3);}
+
+/* Toast notification */
+.toast{
+  position:absolute;bottom:90px;left:50%;transform:translateX(-50%);
+  background:var(--text);color:var(--bg);
+  font-size:12px;font-family:system-ui,sans-serif;
+  padding:8px 18px;border-radius:20px;
+  white-space:nowrap;z-index:100;
+  opacity:0;transition:opacity 0.2s ease;
+  pointer-events:none;
+  box-shadow:0 2px 12px rgba(0,0,0,0.2);
+}
+.toast.show{opacity:1;}
 
 /* Splash screen */
-#splash{position:fixed;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.6s ease;}
+#splash{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.6s ease;}
 #splash.fade{opacity:0;pointer-events:none;}
 #splash img{width:180px;height:180px;object-fit:contain;}
 #splash-name{font-family:'Georgia',serif;font-size:22px;color:#1a1a1a;letter-spacing:2px;margin-top:18px;font-weight:400;}
 
 /* Page tints */
-.tint-main{background:#f5f2eb;}
-.tint-navy{background:#eff0f4;}
-.tint-purple{background:#f1eff4;}
-.tint-maroon{background:#f4efef;}
-.tint-forest{background:#eff3ef;}
-.tint-gold{background:#f3f1eb;}
+.tint-main{background:#faf9f5;}
+.tint-navy{background:#eef0f6;}
+.tint-purple{background:#f0edf5;}
+.tint-maroon{background:#f5eded;}
+.tint-forest{background:#edf2ed;}
+.tint-gold{background:#f4f1e8;}
 .tint-slate{background:#efefef;}
+[data-theme="dark"] .tint-main{background:#141412;}
+[data-theme="dark"] .tint-navy{background:#111520;}
+[data-theme="dark"] .tint-purple{background:#130f1e;}
+[data-theme="dark"] .tint-maroon{background:#1a0c0c;}
+[data-theme="dark"] .tint-forest{background:#0d120d;}
+[data-theme="dark"] .tint-gold{background:#161408;}
+[data-theme="dark"] .tint-slate{background:#111111;}
 </style>
 </head>
 <body>
@@ -204,10 +260,10 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="color-tabs"><div class="ctab" style="background:#1e2d5a" data-page="navy"></div><div class="ctab" style="background:#301d4a" data-page="purple"></div><div class="ctab" style="background:#5c1014" data-page="maroon"></div><div class="ctab" style="background:#172414" data-page="forest"></div><div class="ctab" style="background:#7a6010" data-page="gold"></div><div class="ctab" style="background:#3c3c3c" data-page="slate"></div></div>
   <div class="notes-area" id="notes-main"></div>
   <div class="tool-bar">
-    <button class="tool-btn tb-timer"    onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
-    <button class="tool-btn tb-memory"   onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
-    <button class="tool-btn tb-cal"      onclick="showCal()"><i class="ti ti-calendar"></i><span>Calendar</span></button>
-    <button class="tool-btn tb-settings" onclick="showSettings()"><i class="ti ti-settings"></i><span>Settings</span></button>
+    <button class="tool-btn tb-timer"    onclick="showTimer()"><span class="nav-sym">◷</span></button>
+    <button class="tool-btn tb-memory"   onclick="showMemory()"><span class="nav-sym">◈</span></button>
+    <button class="tool-btn tb-cal"      onclick="showCal()"><span class="nav-sym">▦</span></button>
+    <button class="tool-btn tb-settings" onclick="showSettings()"><span class="nav-sym">⊹</span></button>
   </div>
 </div>
 
@@ -218,10 +274,10 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="color-tabs" id="ctabs-navy"></div>
   <div class="notes-area" id="notes-navy"></div>
   <div class="tool-bar">
-    <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
-    <button class="tool-btn tb-memory" onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
-    <button class="tool-btn tb-cal"    onclick="showCal()"><i class="ti ti-calendar"></i><span>Calendar</span></button>
-    <button class="tool-btn tb-home"   onclick="goHome()"><i class="ti ti-home"></i><span>Home</span></button>
+    <button class="tool-btn tb-timer"  onclick="showTimer()"><span class="nav-sym">◷</span></button>
+    <button class="tool-btn tb-memory" onclick="showMemory()"><span class="nav-sym">◈</span></button>
+    <button class="tool-btn tb-cal"    onclick="showCal()"><span class="nav-sym">▦</span></button>
+    <button class="tool-btn tb-home"   onclick="goHome()"><span class="nav-sym">⌂</span></button>
   </div>
 </div>
 
@@ -232,10 +288,10 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="color-tabs" id="ctabs-purple"></div>
   <div class="notes-area" id="notes-purple"></div>
   <div class="tool-bar">
-    <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
-    <button class="tool-btn tb-memory" onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
-    <button class="tool-btn tb-cal"    onclick="showCal()"><i class="ti ti-calendar"></i><span>Calendar</span></button>
-    <button class="tool-btn tb-home"   onclick="goHome()"><i class="ti ti-home"></i><span>Home</span></button>
+    <button class="tool-btn tb-timer"  onclick="showTimer()"><span class="nav-sym">◷</span></button>
+    <button class="tool-btn tb-memory" onclick="showMemory()"><span class="nav-sym">◈</span></button>
+    <button class="tool-btn tb-cal"    onclick="showCal()"><span class="nav-sym">▦</span></button>
+    <button class="tool-btn tb-home"   onclick="goHome()"><span class="nav-sym">⌂</span></button>
   </div>
 </div>
 
@@ -246,10 +302,10 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="color-tabs" id="ctabs-maroon"></div>
   <div class="notes-area" id="notes-maroon"></div>
   <div class="tool-bar">
-    <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
-    <button class="tool-btn tb-memory" onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
-    <button class="tool-btn tb-cal"    onclick="showCal()"><i class="ti ti-calendar"></i><span>Calendar</span></button>
-    <button class="tool-btn tb-home"   onclick="goHome()"><i class="ti ti-home"></i><span>Home</span></button>
+    <button class="tool-btn tb-timer"  onclick="showTimer()"><span class="nav-sym">◷</span></button>
+    <button class="tool-btn tb-memory" onclick="showMemory()"><span class="nav-sym">◈</span></button>
+    <button class="tool-btn tb-cal"    onclick="showCal()"><span class="nav-sym">▦</span></button>
+    <button class="tool-btn tb-home"   onclick="goHome()"><span class="nav-sym">⌂</span></button>
   </div>
 </div>
 
@@ -260,10 +316,10 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="color-tabs" id="ctabs-forest"></div>
   <div class="notes-area" id="notes-forest"></div>
   <div class="tool-bar">
-    <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
-    <button class="tool-btn tb-memory" onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
-    <button class="tool-btn tb-cal"    onclick="showCal()"><i class="ti ti-calendar"></i><span>Calendar</span></button>
-    <button class="tool-btn tb-home"   onclick="goHome()"><i class="ti ti-home"></i><span>Home</span></button>
+    <button class="tool-btn tb-timer"  onclick="showTimer()"><span class="nav-sym">◷</span></button>
+    <button class="tool-btn tb-memory" onclick="showMemory()"><span class="nav-sym">◈</span></button>
+    <button class="tool-btn tb-cal"    onclick="showCal()"><span class="nav-sym">▦</span></button>
+    <button class="tool-btn tb-home"   onclick="goHome()"><span class="nav-sym">⌂</span></button>
   </div>
 </div>
 
@@ -274,10 +330,10 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="color-tabs" id="ctabs-gold"></div>
   <div class="notes-area" id="notes-gold"></div>
   <div class="tool-bar">
-    <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
-    <button class="tool-btn tb-memory" onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
-    <button class="tool-btn tb-cal"    onclick="showCal()"><i class="ti ti-calendar"></i><span>Calendar</span></button>
-    <button class="tool-btn tb-home"   onclick="goHome()"><i class="ti ti-home"></i><span>Home</span></button>
+    <button class="tool-btn tb-timer"  onclick="showTimer()"><span class="nav-sym">◷</span></button>
+    <button class="tool-btn tb-memory" onclick="showMemory()"><span class="nav-sym">◈</span></button>
+    <button class="tool-btn tb-cal"    onclick="showCal()"><span class="nav-sym">▦</span></button>
+    <button class="tool-btn tb-home"   onclick="goHome()"><span class="nav-sym">⌂</span></button>
   </div>
 </div>
 
@@ -288,10 +344,10 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="color-tabs" id="ctabs-slate"></div>
   <div class="notes-area" id="notes-slate"></div>
   <div class="tool-bar">
-    <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
-    <button class="tool-btn tb-memory" onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
-    <button class="tool-btn tb-cal"    onclick="showCal()"><i class="ti ti-calendar"></i><span>Calendar</span></button>
-    <button class="tool-btn tb-home"   onclick="goHome()"><i class="ti ti-home"></i><span>Home</span></button>
+    <button class="tool-btn tb-timer"  onclick="showTimer()"><span class="nav-sym">◷</span></button>
+    <button class="tool-btn tb-memory" onclick="showMemory()"><span class="nav-sym">◈</span></button>
+    <button class="tool-btn tb-cal"    onclick="showCal()"><span class="nav-sym">▦</span></button>
+    <button class="tool-btn tb-home"   onclick="goHome()"><span class="nav-sym">⌂</span></button>
   </div>
 </div>
 
@@ -317,9 +373,9 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
     <div class="tmsg" id="tmsg"></div>
   </div>
   <div class="tool-bar">
-    <button class="tool-btn tb-memory"   onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
-    <button class="tool-btn tb-cal"      onclick="showCal()"><i class="ti ti-calendar"></i><span>Calendar</span></button>
-    <button class="tool-btn tb-home"     onclick="goHome()"><i class="ti ti-home"></i><span>Home</span></button>
+    <button class="tool-btn tb-memory"   onclick="showMemory()"><span class="nav-sym">◈</span></button>
+    <button class="tool-btn tb-cal"      onclick="showCal()"><span class="nav-sym">▦</span></button>
+    <button class="tool-btn tb-home"     onclick="goHome()"><span class="nav-sym">⌂</span></button>
   </div>
 </div>
 
@@ -329,9 +385,9 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="page-header"><span class="page-title">Memory</span><div class="home-dot" onclick="goHome()"></div></div>
   <div class="mem-panel" id="mem-panel"></div>
   <div class="tool-bar">
-    <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
-    <button class="tool-btn tb-cal"    onclick="showCal()"><i class="ti ti-calendar"></i><span>Calendar</span></button>
-    <button class="tool-btn tb-home"   onclick="goHome()"><i class="ti ti-home"></i><span>Home</span></button>
+    <button class="tool-btn tb-timer"  onclick="showTimer()"><span class="nav-sym">◷</span></button>
+    <button class="tool-btn tb-cal"    onclick="showCal()"><span class="nav-sym">▦</span></button>
+    <button class="tool-btn tb-home"   onclick="goHome()"><span class="nav-sym">⌂</span></button>
   </div>
 </div>
 
@@ -341,9 +397,9 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="page-header"><span class="page-title">Calendar</span><div class="home-dot" onclick="goHome()"></div></div>
   <div class="cal-panel" id="cal-panel"></div>
   <div class="tool-bar">
-    <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
-    <button class="tool-btn tb-memory" onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
-    <button class="tool-btn tb-home"   onclick="goHome()"><i class="ti ti-home"></i><span>Home</span></button>
+    <button class="tool-btn tb-timer"  onclick="showTimer()"><span class="nav-sym">◷</span></button>
+    <button class="tool-btn tb-memory" onclick="showMemory()"><span class="nav-sym">◈</span></button>
+    <button class="tool-btn tb-home"   onclick="goHome()"><span class="nav-sym">⌂</span></button>
   </div>
 </div>
 
@@ -353,13 +409,24 @@ body{background:#d6d3cc;display:flex;justify-content:center;align-items:center;m
   <div class="page-header"><span class="page-title">Settings</span><div class="home-dot" onclick="goHome()"></div></div>
   <div class="set-panel">
     <div class="set-sec"><div class="set-sec-title">Name your pages</div><p class="set-info">Colour-coded pages. Give any a name — it shows at the top.</p><div id="set-names"></div></div>
+    <div class="set-sec">
+      <div class="set-sec-title">Appearance</div>
+      <div class="set-row" style="cursor:pointer;" id="dark-mode-row">
+        <i class="ti ti-moon" style="font-size:18px;color:var(--text2);flex-shrink:0;"></i>
+        <span style="flex:1;font-size:14px;color:var(--text);font-family:system-ui,sans-serif;">Dark mode</span>
+        <div id="dark-pill" style="width:38px;height:20px;border-radius:10px;background:var(--border2);position:relative;transition:background 0.2s;flex-shrink:0;">
+          <div id="dark-dot" style="width:16px;height:16px;border-radius:50%;background:var(--bg);position:absolute;top:2px;left:2px;transition:left 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div>
+        </div>
+      </div>
+    </div>
     <div class="set-sec"><div class="set-sec-title">About</div><p class="set-info">Mnemo — notes, memory, time.<br><br>Double-tap a note to link it or mark done.<br>Double-tap a memory chip to schedule it to any page and date.</p></div>
+    <div class="set-sec"><div class="set-sec-title">Data</div><button id="clear-all-btn" style="width:100%;padding:10px;border-radius:10px;border:0.5px solid #e0b0b0;background:none;color:#c04040;font-size:13px;cursor:pointer;font-family:system-ui,sans-serif;">Clear all notes &amp; data</button></div>
   </div>
   <div class="tool-bar">
-    <button class="tool-btn tb-timer"  onclick="showTimer()"><i class="ti ti-clock"></i><span>Timer</span></button>
-    <button class="tool-btn tb-memory" onclick="showMemory()"><i class="ti ti-history"></i><span>Memory</span></button>
-    <button class="tool-btn tb-cal"    onclick="showCal()"><i class="ti ti-calendar"></i><span>Calendar</span></button>
-    <button class="tool-btn tb-home"   onclick="goHome()"><i class="ti ti-home"></i><span>Home</span></button>
+    <button class="tool-btn tb-timer"  onclick="showTimer()"><span class="nav-sym">◷</span></button>
+    <button class="tool-btn tb-memory" onclick="showMemory()"><span class="nav-sym">◈</span></button>
+    <button class="tool-btn tb-cal"    onclick="showCal()"><span class="nav-sym">▦</span></button>
+    <button class="tool-btn tb-home"   onclick="goHome()"><span class="nav-sym">⌂</span></button>
   </div>
 </div>
 
@@ -377,13 +444,24 @@ const M3=MOS.map(m=>m.slice(0,3));
 // ── localStorage persistence ──
 function saveState(){
   try{
+    localStorage.setItem('mnemo_version', APP_VERSION);
     localStorage.setItem('mnemo_notes', JSON.stringify(notes));
     localStorage.setItem('mnemo_pageNames', JSON.stringify(pageNames));
     localStorage.setItem('mnemo_calEvs', JSON.stringify(calEvs));
   }catch(e){}
 }
+const APP_VERSION='2.0'; // bump this to force-wipe old data
+
 function loadState(){
   try{
+    // Version check — wipe if outdated
+    const savedVer=localStorage.getItem('mnemo_version');
+    if(savedVer!==APP_VERSION){
+      // Clear everything and start fresh
+      ['mnemo_notes','mnemo_pageNames','mnemo_calEvs','mnemo_onboarded','mnemo_mem_onboarded'].forEach(k=>localStorage.removeItem(k));
+      localStorage.setItem('mnemo_version',APP_VERSION);
+      return;
+    }
     const n=localStorage.getItem('mnemo_notes');
     const pn=localStorage.getItem('mnemo_pageNames');
     const ce=localStorage.getItem('mnemo_calEvs');
@@ -425,25 +503,30 @@ function showDayPicker(pg){
   const pageEl=document.getElementById('page-'+pg); if(!pageEl) return;
 
   const picker=document.createElement('div'); picker.id='daypicker-'+pg;
-  picker.style.cssText='position:absolute;top:38px;left:50%;transform:translateX(-50%);background:#fefefe;border:0.5px solid #ddd;border-radius:14px;padding:8px 10px;z-index:40;box-shadow:0 4px 20px rgba(0,0,0,0.14);display:flex;gap:4px;align-items:center;';
+  picker.style.cssText='position:absolute;top:38px;left:50%;transform:translateX(-50%);background:var(--popup-bg);border:0.5px solid var(--border2);border-radius:14px;padding:8px 10px;z-index:40;box-shadow:0 4px 20px rgba(0,0,0,0.14);display:flex;gap:4px;align-items:center;';
   picker.addEventListener('pointerdown',e=>e.stopPropagation());
 
+  // Always centre on TODAY — show 3 before, today in middle, 3 after
   for(let step=-3;step<=3;step++){
-    if(step===0) continue;
-    const absOffset=globalOff+step; // capture for closure
+    const absOffset=step; // relative to today
     const dateObj=offsetDate(absOffset);
     const dayName=DS[dateObj.getDay()];
     const dayNum=dateObj.getDate();
 
     const btn=document.createElement('div');
-    btn.style.cssText='display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;padding:5px 7px;border-radius:10px;min-width:32px;transition:background 0.1s;';
-    btn.innerHTML='<span style="font-size:9px;color:#aaa;font-family:system-ui,sans-serif;text-transform:uppercase;letter-spacing:0.3px;">'+dayName+'</span>'
-      +'<span style="font-size:13px;color:#1a1a1a;font-family:system-ui,sans-serif;font-weight:500;">'+dayNum+'</span>';
-    btn.addEventListener('mouseenter',()=>btn.style.background='rgba(0,0,0,0.05)');
-    btn.addEventListener('mouseleave',()=>btn.style.background='');
+    const isToday=step===0;
+    btn.style.cssText='display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;padding:5px 7px;border-radius:10px;min-width:32px;transition:background 0.1s;'+(isToday?'background:rgba(26,26,26,0.06);':'');
+    const nameLabel=isToday?'today':dayName;
+    const numLabel=isToday?'·':dayNum;
+    btn.innerHTML='<span style="font-size:9px;color:'+(isToday?'#1a1a1a':'#aaa')+';font-family:system-ui,sans-serif;text-transform:uppercase;letter-spacing:0.3px;font-weight:'+(isToday?'700':'400')+';">'+nameLabel+'</span>'
+      +'<span style="font-size:13px;color:#1a1a1a;font-family:system-ui,sans-serif;font-weight:'+(isToday?'700':'500')+';">'+dayNum+'</span>';
+    if(!isToday){
+      btn.addEventListener('mouseenter',()=>btn.style.background='rgba(0,0,0,0.05)');
+      btn.addEventListener('mouseleave',()=>btn.style.background='rgba(0,0,0,0)');
+    }
     btn.addEventListener('click',e=>{
       e.stopPropagation();
-      globalOff=absOffset; // jump directly to that absolute offset
+      globalOff=absOffset;
       ALL_PAGES.forEach(p=>updateDateBar(p));
       NOTE_PAGES.forEach(p=>renderNotes(p));
       picker.remove();
@@ -488,6 +571,7 @@ document.querySelectorAll('.dnarr').forEach(btn=>{
 
 function updateClock(){ const d=new Date(),h=d.getHours(),m=d.getMinutes(); document.getElementById('clock').textContent=(h%12||12)+':'+(m<10?'0':'')+m; }
 updateClock(); setInterval(updateClock,15000);
+setupHomeDots();
 
 // Splash screen
 (function(){
@@ -495,14 +579,128 @@ updateClock(); setInterval(updateClock,15000);
   if(!splash) return;
   setTimeout(()=>{
     splash.classList.add('fade');
-    setTimeout(()=>splash.remove(), 650);
+    setTimeout(()=>{
+      splash.remove();
+      // Show onboarding only on first ever launch
+      if(!localStorage.getItem('mnemo_onboarded')){
+        showOnboarding();
+      }
+    }, 650);
   }, 1800);
 })();
+
+function showOnboarding(){
+  const screen=document.getElementById('screen');
+  const ob=document.createElement('div');
+  ob.style.cssText='position:absolute;inset:0;background:var(--bg);z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 36px;';
+
+  // Logo small
+  const logoWrap=document.createElement('div');
+  logoWrap.style.cssText='width:80px;height:80px;border-radius:50%;overflow:hidden;margin-bottom:36px;flex-shrink:0;';
+  const logoImg=document.querySelector('#splash img');
+  if(logoImg){
+    const clone=document.createElement('div');
+    clone.style.cssText='width:80px;height:80px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;overflow:hidden;';
+    const img=document.createElement('img');
+    img.src=logoImg.src; img.style.cssText='width:80px;height:80px;object-fit:contain;';
+    clone.appendChild(img); logoWrap.appendChild(clone);
+  } else {
+    logoWrap.style.background='#1a1a1a';
+  }
+  ob.appendChild(logoWrap);
+
+  // Title
+  const title=document.createElement('div');
+  title.textContent='Everything is a double-tap.';
+  title.style.cssText='font-family:Georgia,serif;font-size:22px;color:var(--text);text-align:center;margin-bottom:40px;line-height:1.3;';
+  ob.appendChild(title);
+
+  // Three items
+  const items=[
+    ['Double-tap to write', 'Tap anywhere on a page to begin. Double-tap a blank area to open the writer.'],
+    ['Double-tap to learn', 'Double-tap any note to edit it, set a time, or link it to another page.'],
+    ['Double-tap to remember', 'Double-tap any chip in Memory to schedule it to any page and date.'],
+  ];
+
+  items.forEach(([head, body])=>{
+    const item=document.createElement('div');
+    item.style.cssText='margin-bottom:28px;width:100%;';
+    const h=document.createElement('div');
+    h.textContent=head;
+    h.style.cssText='font-family:Georgia,serif;font-size:15px;color:var(--text);margin-bottom:5px;';
+    const b=document.createElement('div');
+    b.textContent=body;
+    b.style.cssText='font-size:13px;color:var(--text2);font-family:system-ui,sans-serif;line-height:1.5;';
+    item.appendChild(h); item.appendChild(b);
+    ob.appendChild(item);
+  });
+
+  // Begin button
+  const btn=document.createElement('button');
+  btn.textContent='Begin';
+  btn.style.cssText='margin-top:8px;background:var(--text);color:var(--bg);border:none;border-radius:24px;padding:13px 48px;font-size:15px;font-family:Georgia,serif;cursor:pointer;letter-spacing:0.5px;';
+  btn.addEventListener('click',()=>{
+    localStorage.setItem('mnemo_onboarded','1');
+    ob.style.opacity='0';
+    ob.style.transition='opacity 0.4s ease';
+    setTimeout(()=>ob.remove(),400);
+  });
+  ob.appendChild(btn);
+
+  screen.appendChild(ob);
+}
 
 function showPage(id){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('page-'+id).classList.add('active'); closePopup(); }
 function goHome(){ showPage('main'); }
 function showTimer(){ showPage('timer'); }
-function showMemory(){ renderMemory(); showPage('memory'); }
+function showMemory(){
+  renderMemory(); showPage('memory');
+  // First-time memory onboarding
+  if(!localStorage.getItem('mnemo_mem_onboarded')){
+    setTimeout(()=>showMemoryOnboarding(), 300);
+  }
+}
+
+function showMemoryOnboarding(){
+  const pageEl=document.getElementById('page-memory'); if(!pageEl) return;
+  const ob=document.createElement('div');
+  ob.style.cssText='position:absolute;inset:0;background:var(--bg);z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 32px;';
+
+  const title=document.createElement('div');
+  title.textContent='How Memory works.';
+  title.style.cssText='font-family:Georgia,serif;font-size:20px;color:var(--text);margin-bottom:32px;text-align:center;';
+  ob.appendChild(title);
+
+  const items=[
+    ['Tap','Sends the note back to the page it came from, today.'],
+    ['Double-tap','Schedule it to any page, any date.'],
+    ['Swipe','Dismiss it from memory.'],
+    ['Colour','Each chip is tinted with the page it lives on.'],
+  ];
+  items.forEach(([head,body])=>{
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;gap:14px;align-items:flex-start;margin-bottom:22px;width:100%;';
+    const h=document.createElement('div');
+    h.textContent=head;
+    h.style.cssText='font-family:Georgia,serif;font-size:14px;color:var(--text);min-width:80px;padding-top:1px;';
+    const b=document.createElement('div');
+    b.textContent=body;
+    b.style.cssText='font-size:13px;color:var(--text2);font-family:system-ui,sans-serif;line-height:1.5;flex:1;';
+    row.appendChild(h); row.appendChild(b); ob.appendChild(row);
+  });
+
+  const btn=document.createElement('button');
+  btn.textContent='Got it';
+  btn.style.cssText='margin-top:8px;background:var(--text);color:var(--bg);border:none;border-radius:24px;padding:12px 44px;font-size:14px;font-family:Georgia,serif;cursor:pointer;';
+  btn.addEventListener('click',()=>{
+    localStorage.setItem('mnemo_mem_onboarded','1');
+    ob.style.transition='opacity 0.3s ease';
+    ob.style.opacity='0';
+    setTimeout(()=>ob.remove(),300);
+  });
+  ob.appendChild(btn);
+  pageEl.appendChild(ob);
+}
 function showCal(){ renderCal(); showPage('cal'); }
 function showSettings(){ renderSettings(); showPage('settings'); }
 
@@ -511,11 +709,53 @@ COLOR_PAGES.forEach(p=>{
   const c=document.getElementById('ctabs-'+p); if(!c) return; c.innerHTML='';
   COLOR_PAGES.forEach(k=>{ if(k===p) return; const d=document.createElement('div'); d.className='ctab'; d.style.background=COLORS[k]; d.dataset.page=k; d.addEventListener('click',()=>showPage(k)); c.appendChild(d); });
 });
-function updatePageTitles(){ COLOR_PAGES.forEach(p=>{ const el=document.getElementById('ptitle-'+p); if(el) el.textContent=pageNames[p]||'\u200A'; }); }
+function updatePageTitles(){ COLOR_PAGES.forEach(p=>{ const el=document.getElementById('ptitle-'+p); if(el) el.textContent=pageNames[p]||' '; }); }
+
+function setupHomeDots(){
+  document.querySelectorAll('.home-dot').forEach(dot=>{
+    dot.removeAttribute('onclick');
+    let lastTap=0;
+    dot.addEventListener('pointerdown',e=>{
+      e.stopPropagation();
+      const now=Date.now();
+      if(lastTap>0&&now-lastTap<380){
+        lastTap=0;
+        globalOff=0;
+        ALL_PAGES.forEach(p=>updateDateBar(p));
+        NOTE_PAGES.forEach(p=>renderNotes(p));
+        showPage('main');
+      } else {
+        lastTap=now;
+        setTimeout(()=>{
+          if(lastTap>0){ lastTap=0; showPage('main'); }
+        },400);
+      }
+    });
+  });
+}
 
 // Popup: close when clicking outside. Use mousedown/pointerdown on the document.
 // Each popup calls stopPropagation on its own pointerdown so it doesn't self-close.
 function closePopup(){ if(openPopup){ openPopup.remove(); openPopup=null; } }
+
+function showToast(msg, pageId){
+  // Remove any existing toast
+  document.querySelectorAll('.toast').forEach(t=>t.remove());
+  const pageEl=document.getElementById('page-'+(pageId||'main'));
+  if(!pageEl) return;
+  const toast=document.createElement('div');
+  toast.className='toast';
+  toast.textContent=msg;
+  pageEl.appendChild(toast);
+  // Animate in
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{ toast.classList.add('show'); });
+  });
+  setTimeout(()=>{
+    toast.classList.remove('show');
+    setTimeout(()=>toast.remove(), 250);
+  }, 1800);
+}
 document.addEventListener('pointerdown', e=>{
   if(openPopup && !openPopup.contains(e.target)) closePopup();
 }, true);
@@ -542,9 +782,22 @@ function renderNotes(page){
     chk.addEventListener('click',e=>{ e.stopPropagation(); n.done=!n.done; renderNotes(page); saveState(); });
     const inner=document.createElement('div'); inner.className='note-inner';
     const txt=document.createElement('div'); txt.className='note-text'+(n.done?' done':''); txt.textContent=n.text; inner.appendChild(txt);
-    if(n.sub){ const s=document.createElement('div'); s.className='note-sub'; s.textContent='↳ '+n.sub; inner.appendChild(s); }
+    if(n.sub){
+      // Only show sub if it's a time (am/pm) — not a date label
+      const isTime=/\d+:\d+\s*(am|pm)/i.test(n.sub);
+      if(isTime){ const s=document.createElement('div'); s.className='note-sub'; s.textContent='↳ '+n.sub; inner.appendChild(s); }
+    }
     row.appendChild(chk); row.appendChild(inner);
-    if(n.linkedPage){ const ld=document.createElement('div'); ld.className='note-ldot'; ld.style.background=COLORS[n.linkedPage]; ld.addEventListener('click',e=>{ e.stopPropagation(); showPage(n.linkedPage); }); row.appendChild(ld); }
+    if(n.linkedPage){
+      const ld=document.createElement('div'); ld.className='note-ldot';
+      if(n.linkedPage==='main'){
+        ld.style.cssText='background:#fff;border:1.5px solid #c8c5bd;box-shadow:0 1px 3px rgba(0,0,0,0.1);';
+      } else {
+        ld.style.background=COLORS[n.linkedPage]||'#ccc';
+      }
+      ld.addEventListener('click',e=>{ e.stopPropagation(); showPage(n.linkedPage); });
+      row.appendChild(ld);
+    }
     // Pointer-based double-tap — works on both mobile and desktop
     let _lastTap=0;
     row.addEventListener('pointerdown',e=>{
@@ -651,7 +904,7 @@ function showNotePopup(page,idx){
     function saveEdit(){
       if(saved) return; saved=true;
       const t=ta.value.trim();
-      if(t){ n.text=t; } else { notes[page].splice(idx,1); }
+      if(t){ n.text=t; if(!n.page) n.page=page; } else { notes[page].splice(idx,1); }
       renderNotes(page); saveState();
     }
     ta.addEventListener('keydown',e=>{
@@ -676,7 +929,19 @@ function showNotePopup(page,idx){
   // Delete row
   const dr=document.createElement('div'); dr.className='popup-row';
   dr.innerHTML=`<i class="ti ti-trash" style="font-size:17px;color:#c04040;"></i><span style="color:#c04040;">Delete</span>`;
-  dr.addEventListener('click',()=>{ notes[page].splice(idx,1); renderNotes(page); saveState(); closePopup(); }); pop.appendChild(dr);
+  dr.addEventListener('click',()=>{
+    const deletedNote=notes[page][idx];
+    // If this note has a linkedPage, wipe all notes on that linked page for the same date
+    if(deletedNote.linkedPage && deletedNote.dateKey){
+      const linkedPg=deletedNote.linkedPage;
+      const dateKey=deletedNote.dateKey;
+      notes[linkedPg]=notes[linkedPg].filter(n=>n.dateKey!==dateKey);
+      renderNotes(linkedPg);
+    }
+    // Delete the note itself
+    notes[page].splice(idx,1);
+    renderNotes(page); saveState(); closePopup();
+  }); pop.appendChild(dr);
 
   // Divider + time dial
   const dv1=document.createElement('div'); dv1.className='pdiv'; pop.appendChild(dv1);
@@ -732,7 +997,7 @@ function showInlineWriter(page){
   let idleTimer=null;
   function resetIdle(){
     clearTimeout(idleTimer);
-    idleTimer=setTimeout(()=>{ if(ta.value.trim()) commit(); }, 1500);
+    idleTimer=setTimeout(()=>{ if(ta.value.trim()) commit(); }, 3000);
   }
 
   ta.addEventListener('input',()=>{
@@ -751,7 +1016,7 @@ function showInlineWriter(page){
     const t=ta.value.trim();
     row.remove();
     if(t){
-      notes[page].push({text:t,done:false,linkedPage:null,dateKey:offKey(globalOff),sub:null});
+      notes[page].push({text:t,done:false,linkedPage:null,dateKey:offKey(globalOff),sub:null,page});
       renderNotes(page); saveState();
       showInlineWriter(page);
     }
@@ -771,28 +1036,80 @@ NOTE_PAGES.forEach(page=>{
 });
 
 // ── TIMER ──
+// Alarm sound — gentle 3-tone chime using Web Audio API
+function playAlarm(){
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [523.25, 659.25, 783.99]; // C5, E5, G5 — a soft major chord
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      const start = ctx.currentTime + i * 0.35;
+      const end = start + 1.2;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.28, start + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, end);
+      osc.start(start);
+      osc.stop(end);
+    });
+    // Repeat chime twice
+    setTimeout(()=>{
+      try {
+        const ctx2 = new (window.AudioContext || window.webkitAudioContext)();
+        notes.forEach((freq, i) => {
+          const osc = ctx2.createOscillator();
+          const gain = ctx2.createGain();
+          osc.connect(gain);
+          gain.connect(ctx2.destination);
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          const start = ctx2.currentTime + i * 0.35;
+          const end = start + 1.2;
+          gain.gain.setValueAtTime(0, start);
+          gain.gain.linearRampToValueAtTime(0.28, start + 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.001, end);
+          osc.start(start);
+          osc.stop(end);
+        });
+      } catch(e){}
+    }, 1600);
+  } catch(e){
+    console.warn('Audio not available:', e);
+  }
+}
+
 function setPreset(mins,btn){ document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('psel')); btn.classList.add('psel'); tTotal=mins*60; tLeft=mins*60; tRunning=false; clearInterval(tInterval); updateTimerUI(); document.getElementById('tlbl').textContent='ready'; document.getElementById('tmsg').textContent=''; document.getElementById('tpp').innerHTML='<i class="ti ti-player-play"></i>'; }
 function updateTimerUI(){ const m=Math.floor(tLeft/60),s=tLeft%60; document.getElementById('tdisp').textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s; document.getElementById('tarc').setAttribute('stroke-dashoffset',465*(1-tLeft/tTotal)); }
-function toggleTimer(){ if(tLeft<=0) return; tRunning=!tRunning; const btn=document.getElementById('tpp'); if(tRunning){ btn.innerHTML='<i class="ti ti-player-pause"></i>'; document.getElementById('tlbl').textContent='running'; tInterval=setInterval(()=>{ tLeft--; updateTimerUI(); if(tLeft<=0){ clearInterval(tInterval); tRunning=false; document.getElementById('tlbl').textContent='done!'; document.getElementById('tmsg').textContent='Time is up — great work.'; btn.innerHTML='<i class="ti ti-player-play"></i>'; }},1000); } else { clearInterval(tInterval); btn.innerHTML='<i class="ti ti-player-play"></i>'; document.getElementById('tlbl').textContent='paused'; } }
+function toggleTimer(){ if(tLeft<=0) return; tRunning=!tRunning; const btn=document.getElementById('tpp'); if(tRunning){ btn.innerHTML='<i class="ti ti-player-pause"></i>'; document.getElementById('tlbl').textContent='running'; tInterval=setInterval(()=>{ tLeft--; updateTimerUI(); if(tLeft<=0){ clearInterval(tInterval); tRunning=false; document.getElementById('tlbl').textContent='done!'; document.getElementById('tmsg').textContent='Time is up — great work.'; btn.innerHTML='<i class="ti ti-player-play"></i>';
+          playAlarm(); }},1000); } else { clearInterval(tInterval); btn.innerHTML='<i class="ti ti-player-play"></i>'; document.getElementById('tlbl').textContent='paused'; } }
 function resetTimer(){ clearInterval(tInterval); tRunning=false; tLeft=tTotal; updateTimerUI(); document.getElementById('tlbl').textContent='ready'; document.getElementById('tmsg').textContent=''; document.getElementById('tpp').innerHTML='<i class="ti ti-player-play"></i>'; }
 updateTimerUI();
 
-// ── MEMORY ──
-const FREQ=[['Gym',74],['Study session',61],['Read 30 mins',55],['Meal prep',48]];
-// Memory chips are shown for up to 10 previous days. Each has a created timestamp.
-const PAST_RAW=['Read chapter 4','Morning jog','Journal entry','Water plants','Draft email'];
-// Simulate creation dates: all within last 10 days
-const now10=Date.now();
-const PAST=PAST_RAW.map((text,i)=>({ text, created: now10 - i*1.5*24*60*60*1000 }));
-// Frequency items don't expire
-const MEM_EXPIRY_DAYS=10;
+// ── MEMORY ENGINE — reads from real notes ──
 
-function buildPcRow(container, getter, setter){
+function buildPcRow(container, getter, setter, originPage){
   container.innerHTML='';
-  const mc=document.createElement('div'); mc.className='pc pc-main pc-sel'; mc.title='Main';
-  mc.addEventListener('click',e=>{ e.stopPropagation(); setter('main'); container.querySelectorAll('.pc').forEach(c=>c.classList.remove('pc-sel')); mc.classList.add('pc-sel'); });
-  container.appendChild(mc);
-  COLOR_PAGES.forEach(k=>{ const c=document.createElement('div'); c.className='pc'; c.style.background=COLORS[k]; c.title=pageNames[k]||k; c.addEventListener('click',e=>{ e.stopPropagation(); setter(k); container.querySelectorAll('.pc').forEach(x=>x.classList.remove('pc-sel')); c.classList.add('pc-sel'); }); container.appendChild(c); });
+  const allKeys=['main',...COLOR_PAGES];
+  allKeys.forEach(k=>{
+    const c=document.createElement('div');
+    if(k==='main') c.className='pc pc-main'; else { c.className='pc'; c.style.background=COLORS[k]; }
+    c.title=pageNames[k]||k;
+    // Pre-select origin page
+    if(k===getter()) c.classList.add('pc-sel');
+    // Show origin ring — small dark outline if this is where chip came from
+    if(k===originPage){
+      c.style.boxShadow='0 0 0 2px #1a1a1a, 0 0 0 3.5px '+( k==='main'?'#c8c5bd':(COLORS[k]||'#888'));
+    }
+    c.addEventListener('click',e=>{ e.stopPropagation(); setter(k);
+      container.querySelectorAll('.pc').forEach(x=>{ x.classList.remove('pc-sel'); if(x!==c) x.style.boxShadow=allKeys[container.querySelectorAll('.pc').length]===originPage?'0 0 0 2px #1a1a1a':''; });
+      c.classList.add('pc-sel');
+    });
+    container.appendChild(c);
+  });
 }
 
 // Custom mini calendar picker — no native date input
@@ -802,7 +1119,7 @@ function makeMiniCalPicker(container, onSelect){
   let selY=null, selM=null, selD=null;
   function render(){
     container.innerHTML='';
-    container.style.cssText='background:#faf9f6;border:0.5px solid #e0ddd6;border-radius:12px;padding:10px 8px;margin-bottom:10px;';
+    container.style.cssText='background:var(--bg2);border:0.5px solid var(--border2);border-radius:12px;padding:10px 8px;margin-bottom:10px;';
     const head=document.createElement('div'); head.style.cssText='display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     const prev=document.createElement('button'); prev.innerHTML='&lsaquo;'; prev.style.cssText='background:none;border:none;cursor:pointer;font-size:18px;font-weight:700;color:#444;padding:0 6px;line-height:1;';
     prev.addEventListener('click',e=>{ e.stopPropagation(); pM--; if(pM<0){pM=11;pY--;} render(); });
@@ -833,7 +1150,7 @@ function makeMiniCalPicker(container, onSelect){
   render();
 }
 
-function showSchedPopup(text,chip){
+function showSchedPopup(text,chip,originPage,origLinkedPage){
   closePopup();
   const pop=document.createElement('div'); pop.className='big-popup';
   pop.addEventListener('pointerdown',e=>e.stopPropagation());
@@ -842,7 +1159,7 @@ function showSchedPopup(text,chip){
 
   const plbl=document.createElement('span'); plbl.className='bp-lbl'; plbl.textContent='Add to page'; pop.appendChild(plbl);
   const pcRow=document.createElement('div'); pcRow.className='pc-row';
-  let selPage='main'; buildPcRow(pcRow,()=>selPage,v=>{ selPage=v; });
+  let selPage=originPage||'main'; buildPcRow(pcRow,()=>selPage,v=>{ selPage=v; },originPage);
   pop.appendChild(pcRow);
 
   const dv=document.createElement('div'); dv.style.cssText='height:0.5px;background:#eee;margin:2px 0 10px;'; pop.appendChild(dv);
@@ -870,69 +1187,269 @@ function showSchedPopup(text,chip){
   pop.appendChild(calContainer);
 
   const cBtn=document.createElement('button'); cBtn.className='bp-confirm'; cBtn.textContent='Add to page \u2192';
+  let schedDone=false;
   cBtn.addEventListener('click',e=>{ e.stopPropagation();
-    let sub=null, targetKey=offKey(0);
+    if(schedDone) return; schedDone=true;
+    const realToday=new Date();
+    let sub=null, targetKey=dk(realToday.getFullYear(),realToday.getMonth(),realToday.getDate());
     if(selWhen==='tomorrow'){
-      sub='tomorrow'; const d=new Date(); d.setDate(d.getDate()+1); targetKey=dk(d.getFullYear(),d.getMonth(),d.getDate());
+      const d=new Date(); d.setDate(d.getDate()+1); targetKey=dk(d.getFullYear(),d.getMonth(),d.getDate());
     } else if(selWhen==='custom'&&selCustomDate){
-      const {y,m,d}=selCustomDate; sub=M3[m]+' '+d; targetKey=dk(y,m,d);
+      const {y,m,d}=selCustomDate; targetKey=dk(y,m,d);
     }
-    notes[selPage].push({text,done:false,linkedPage:null,dateKey:targetKey,sub});
-    renderNotes(selPage); chip.classList.add('used'); closePopup();
+    // linkedPage travels with the note always
+    notes[selPage].push({text,done:false,linkedPage:origLinkedPage||null,dateKey:targetKey,sub:null,page:selPage});
+    saveState();
+    renderNotes(selPage);
+    // Fade chip — user stays on memory page
+    chip.classList.add('used');
+    chip.style.transition='opacity 0.3s';
+    chip.style.opacity='0.25';
+    chip.style.pointerEvents='none';
+    chip.style.textDecoration='line-through';
+    openPopup=null; pop.remove();
+    // Toast confirmation
+    const pgLabel=pageNames[selPage]||(selPage==='main'?'Main':selPage.charAt(0).toUpperCase()+selPage.slice(1));
+    const whenLabel=selWhen==='tomorrow'?' for tomorrow':(selWhen==='custom'?' for '+M3[new Date(targetKey+'T12:00:00').getMonth()]+' '+new Date(targetKey+'T12:00:00').getDate():'');
+    showToast('Added to '+pgLabel+whenLabel, 'memory');
   });
   pop.appendChild(cBtn);
   document.getElementById('page-memory').appendChild(pop); openPopup=pop;
 }
 
-function makeChip(text,freq,ghost,daysAgo){
-  const chip=document.createElement('div'); chip.className='mchip'+(ghost?' ghost':'');
+function pageColorFaded(page){
+  const map={
+    navy:'rgba(30,45,90,0.13)',
+    purple:'rgba(48,29,74,0.13)',
+    maroon:'rgba(92,16,20,0.13)',
+    forest:'rgba(23,36,20,0.13)',
+    gold:'rgba(122,96,16,0.13)',
+    slate:'rgba(60,60,60,0.11)',
+    main:'rgba(255,255,255,0.65)',
+  };
+  return map[page]||'rgba(255,255,255,0.65)';
+}
+
+function pageColorBorder(page){
+  const map={
+    navy:'rgba(30,45,90,0.35)',
+    purple:'rgba(48,29,74,0.35)',
+    maroon:'rgba(92,16,20,0.35)',
+    forest:'rgba(23,36,20,0.35)',
+    gold:'rgba(122,96,16,0.35)',
+    slate:'rgba(60,60,60,0.30)',
+    main:'rgba(200,197,189,0.7)',
+  };
+  return map[page]||'rgba(200,197,189,0.7)';
+}
+
+function makeChip(text, freq, ghost, daysAgo, page, linkedPage){
+  const chip=document.createElement('div');
+  chip.className='mchip'+(ghost?' ghost':'');
+
+  // Tint background and border with page colour
+  const bg=pageColorFaded(page||'main');
+  const border=pageColorBorder(page||'main');
+  chip.style.background=bg;
+  chip.style.borderColor=border;
+
   let inner=freq!=null?text+' <span class="mfreq">'+freq+'%</span>':text;
   if(daysAgo) inner+=` <span class="mfreq">${daysAgo}</span>`;
   chip.innerHTML=inner;
-  let lastDown=0;
+
+  // Unified pointer handler: swipe dismiss + single tap + double tap
+  let startX=0, lastTapTime=0, tapTimer=null;
+
   chip.addEventListener('pointerdown',e=>{
     if(chip.classList.contains('used')) return;
+    startX=e.clientX;
     const now=Date.now();
-    if(lastDown>0 && now-lastDown<380){
-      e.preventDefault(); e.stopPropagation(); lastDown=0;
-      showSchedPopup(text,chip);
-    } else { lastDown=now; }
+    if(lastTapTime>0 && now-lastTapTime<380){
+      // Double-tap
+      e.preventDefault(); e.stopPropagation();
+      clearTimeout(tapTimer);
+      lastTapTime=0;
+      showSchedPopup(text, chip, page, linkedPage);
+    } else {
+      lastTapTime=now;
+      clearTimeout(tapTimer);
+      tapTimer=setTimeout(()=>{
+        lastTapTime=0;
+        // Single tap — send to origin page today, stay on memory, fade chip
+        if(chip.classList.contains('used')) return;
+        const targetPage=page||'main';
+        const todayKey=dk(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
+        notes[targetPage].push({text,done:false,linkedPage:linkedPage||null,dateKey:todayKey,sub:null,page:targetPage});
+        renderNotes(targetPage); saveState();
+        // Fade and cross out chip — user stays on memory page
+        chip.classList.add('used');
+        chip.style.transition='opacity 0.3s';
+        chip.style.opacity='0.25';
+        chip.style.pointerEvents='none';
+        chip.style.textDecoration='line-through';
+        // Toast confirmation
+        const pageName=pageNames[targetPage]||(targetPage==='main'?'Main':targetPage.charAt(0).toUpperCase()+targetPage.slice(1));
+        showToast('Added to '+pageName, 'memory');
+      },420);
+    }
   });
+
+  chip.addEventListener('pointerup',e=>{
+    const dx=e.clientX-startX;
+    if(Math.abs(dx)>50){
+      // Swipe — dismiss
+      clearTimeout(tapTimer); lastTapTime=0;
+      chip.style.transition='opacity 0.25s,transform 0.25s';
+      chip.style.opacity='0';
+      chip.style.transform='translateX('+(dx>0?'80px':'-80px')+')';
+      setTimeout(()=>chip.remove(),270);
+    }
+  });
+
   return chip;
 }
 
-function daysAgoLabel(ts){
-  const days=Math.floor((Date.now()-ts)/(24*60*60*1000));
+function daysAgoLabel(dateKey){
+  const [y,m,d]=dateKey.split('-').map(Number);
+  const noteDate=new Date(y,m-1,d); noteDate.setHours(0,0,0,0);
+  const today=new Date(); today.setHours(0,0,0,0);
+  const days=Math.round((today-noteDate)/(24*60*60*1000));
   if(days===0) return 'today';
   if(days===1) return '1d ago';
   return days+'d ago';
 }
 
+function buildMemoryData(){
+  const today=new Date(); today.setHours(0,0,0,0);
+  const tenDaysAgo=new Date(today); tenDaysAgo.setDate(today.getDate()-10);
+  const thirtyDaysAgo=new Date(today); thirtyDaysAgo.setDate(today.getDate()-30);
+  const todayKey=dk(today.getFullYear(),today.getMonth(),today.getDate());
+
+  // Gather all notes across all pages
+  const allNotes=[];
+  NOTE_PAGES.forEach(page=>{
+    (notes[page]||[]).forEach(n=>{
+      if(!n.text||!n.dateKey) return;
+      const [y,m,d]=n.dateKey.split('-').map(Number);
+      const noteDate=new Date(y,m-1,d); noteDate.setHours(0,0,0,0);
+      allNotes.push({text:n.text.trim(),date:noteDate,dateKey:n.dateKey,page:n.page||page});
+    });
+  });
+
+  // FREQUENT — notes written 2+ times in last 30 days
+  const freqMap={};
+  allNotes.forEach(n=>{
+    if(n.date>=thirtyDaysAgo){
+      const key=n.text.toLowerCase();
+      if(!freqMap[key]) freqMap[key]={count:0,text:n.text,page:n.page,linkedPage:null};
+      freqMap[key].count++;
+      // Always pick the best (non-null) linkedPage across all occurrences
+      if(n.linkedPage) freqMap[key].linkedPage=n.linkedPage;
+    }
+  });
+  // Second pass — ensure every freqMap entry has the best linkedPage from ALL notes
+  NOTE_PAGES.forEach(pg=>{
+    (notes[pg]||[]).forEach(sn=>{
+      if(!sn.text) return;
+      const k=sn.text.toLowerCase();
+      if(freqMap[k] && sn.linkedPage && !freqMap[k].linkedPage){
+        freqMap[k].linkedPage=sn.linkedPage;
+      }
+    });
+  });
+  const totalCount=Object.values(freqMap).reduce((s,x)=>s+x.count,0);
+  const frequent=Object.values(freqMap)
+    .filter(f=>f.count>=2)
+    .sort((a,b)=>b.count-a.count)
+    .slice(0,6)
+    .map(f=>[f.text, totalCount>0?Math.round((f.count/totalCount)*100):0, f.page, f.linkedPage]);
+
+  // PREVIOUS DAYS — unique notes from last 10 days, not today
+  const seen=new Set();
+  const previous=[];
+  allNotes
+    .filter(n=>n.date>=tenDaysAgo && n.dateKey!==todayKey)
+    .sort((a,b)=>b.date-a.date)
+    .forEach(n=>{
+      const key=n.text.toLowerCase();
+      if(!seen.has(key)){
+        seen.add(key);
+        // Find the best linkedPage for this text across all occurrences
+        // Scan across ALL notes in storage (not just recent) for best linkedPage
+        let bestLinked=null;
+        NOTE_PAGES.forEach(pg=>{
+          (notes[pg]||[]).forEach(sn=>{
+            if(sn.text&&sn.text.toLowerCase()===key&&sn.linkedPage) bestLinked=sn.linkedPage;
+          });
+        });
+        if(!bestLinked) bestLinked=n.linkedPage||null;
+        // n.page is set from the loop variable 'page' in buildMemoryData
+        // n.page||page ensures we always have the correct page key
+        previous.push({text:n.text,dateKey:n.dateKey,page:n.page||page,linkedPage:bestLinked});
+      }
+    });
+
+  return {frequent,previous};
+}
+
 function renderMemory(){
   const p=document.getElementById('mem-panel'); p.innerHTML='';
   const h=document.createElement('div'); h.className='mem-hint'; h.textContent='Double-tap any chip to schedule it to a page & date.'; p.appendChild(h);
-  const fs=document.createElement('div'); fs.className='mem-sec'; fs.textContent='frequent'; p.appendChild(fs);
-  const fw=document.createElement('div'); fw.className='mem-chips'; FREQ.forEach(([w,pct])=>fw.appendChild(makeChip(w,pct,false,null))); p.appendChild(fw);
-  // Filter PAST to only items within 10 days
-  const cutoff=Date.now()-MEM_EXPIRY_DAYS*24*60*60*1000;
-  const activePast=PAST.filter(item=>item.created>=cutoff);
-  if(activePast.length){
-    const ps=document.createElement('div'); ps.className='mem-sec'; ps.textContent='previous days'; p.appendChild(ps);
-    const pw=document.createElement('div'); pw.className='mem-chips'; activePast.forEach(item=>pw.appendChild(makeChip(item.text,null,true,daysAgoLabel(item.created)))); p.appendChild(pw);
+
+  const {frequent,previous}=buildMemoryData();
+
+  if(frequent.length){
+    const fs=document.createElement('div'); fs.className='mem-sec'; fs.textContent='frequent'; p.appendChild(fs);
+    const fw=document.createElement('div'); fw.className='mem-chips';
+    frequent.forEach(([w,pct,pg,lp])=>fw.appendChild(makeChip(w,pct,false,null,pg,lp)));
+    p.appendChild(fw);
   }
+
+  if(previous.length){
+    const ps=document.createElement('div'); ps.className='mem-sec'; ps.textContent='previous days'; p.appendChild(ps);
+    const pw=document.createElement('div'); pw.className='mem-chips';
+    previous.forEach(item=>pw.appendChild(makeChip(item.text,null,true,daysAgoLabel(item.dateKey),item.page,item.linkedPage)));
+    p.appendChild(pw);
+  }
+
+  if(!frequent.length&&!previous.length){
+    const empty=document.createElement('div'); empty.className='mem-hint';
+    empty.style.cssText='text-align:center;padding:32px 0;color:#ccc;font-size:13px;font-family:system-ui,sans-serif;';
+    empty.textContent='Your memory will fill as you write notes.'; p.appendChild(empty);
+  }
+
   const clr=document.createElement('button'); clr.className='clear-btn'; clr.textContent='Clear all memory';
   clr.addEventListener('click',()=>{
-    // Wipe simulated past items from PAST array
-    PAST.length=0; saveState();
-    p.innerHTML='';
-    const gone=document.createElement('div'); gone.className='mem-hint'; gone.style.cssText='text-align:center;padding:24px 0;color:#ccc;font-style:italic;font-size:13px;font-family:system-ui,sans-serif;';
-    gone.textContent='Memory cleared.'; p.appendChild(gone);
+    // Wipe ALL notes across all pages and all calendar events
+    NOTE_PAGES.forEach(page=>{ notes[page]=[]; });
+    calEvs.length=0;
+    saveState(); renderMemory();
+    NOTE_PAGES.forEach(p=>renderNotes(p));
   });
   p.appendChild(clr);
 }
 
 // ── CALENDAR ──
-function cevs(y,m,d){ return calEvs.filter(e=>e.date===dk(y,m,d)); }
+function cevs(y,m,d){
+  const key=dk(y,m,d);
+  // Calendar events added via the add-event popup
+  const events=calEvs.filter(e=>e.date===key).map(e=>({...e,fromCal:true}));
+  // Only main page notes appear in calendar
+  (notes['main']||[]).forEach(n=>{
+    if(n.dateKey===key && n.text){
+      events.push({
+        date:key,
+        text:n.text,
+        time:n.sub||'',
+        page:'main',
+        originPage:'main',
+        linkedPage:n.linkedPage||null,
+        fromNote:true
+      });
+    }
+  });
+  return events;
+}
 
 function showCalAddPopup(){
   closePopup();
@@ -1000,7 +1517,7 @@ function showCalAddPopup(){
     const eventDate=dk(calYr,calMo,calSel);
     calEvs.push({date:eventDate,text,time:timeStr,page:selPage});
     // Write note to the linked page with the event's date so it shows up when user navigates there
-    notes[selPage].push({text,done:false,linkedPage:null,dateKey:eventDate,sub:timeStr||null,fromCal:true});
+    notes[selPage].push({text,done:false,linkedPage:null,dateKey:eventDate,sub:timeStr||null,fromCal:true,page:selPage});
     // If the linked page is currently showing that date, re-render it
     // Re-render if current global date matches the event date
     const pageD=offsetDate(globalOff);
@@ -1049,7 +1566,15 @@ function renderCal(){
         showPage('main');
       } else {
         calTapLast=now;
-        calTapTimer=setTimeout(()=>{ calTapLast=0; calSel=d; renderCal(); },400);
+        calTapTimer=setTimeout(()=>{
+          calTapLast=0; calSel=d;
+          // Sync global date bar to tapped date
+          const td2=new Date(); td2.setHours(0,0,0,0);
+          const tapped=new Date(calYr,calMo,d); tapped.setHours(0,0,0,0);
+          globalOff=Math.round((tapped-td2)/(24*60*60*1000));
+          ALL_PAGES.forEach(p=>updateDateBar(p));
+          renderCal();
+        },400);
       }
     });
     grid.appendChild(cell);
@@ -1059,16 +1584,74 @@ function renderCal(){
   const etitle=document.createElement('div'); etitle.className='ev-title'; etitle.textContent=MOS[calMo]+' '+calSel; panel.appendChild(etitle);
   const dayEvs=cevs(calYr,calMo,calSel);
   if(!dayEvs.length){ const ne=document.createElement('div'); ne.className='no-ev'; ne.textContent='No events'; panel.appendChild(ne); }
-  else { dayEvs.forEach(ev=>{ const row=document.createElement('div'); row.className='ev-row'; const dc=ev.page==='main'?'#c8c5bd':(COLORS[ev.page]||'#c8c5bd'); row.innerHTML='<div class="ev-cdot" style="background:'+dc+'"></div><span class="ev-text">'+ev.text+'</span><span class="ev-time">'+(ev.time||'')+'</span>'; if(ev.page&&ev.page!=='main') row.addEventListener('click',e=>{ e.stopPropagation(); showPage(ev.page); }); panel.appendChild(row); }); }
+  else {
+    dayEvs.forEach(ev=>{
+      const row=document.createElement('div'); row.className='ev-row';
+      // Dot colour: linked page if exists, else origin page
+      const dotPage=ev.linkedPage||(ev.fromNote?ev.originPage:ev.page);
+      const dc=(!dotPage||dotPage==='main')?'#c8c5bd':(COLORS[dotPage]||'#c8c5bd');
+      row.innerHTML='<div class="ev-cdot" style="background:'+dc+'"></div><span class="ev-text">'+ev.text+'</span><span class="ev-time">'+(ev.time||'')+'</span>';
+      // Tap: go to linked page if exists, else origin page
+      const navPage=ev.linkedPage||(ev.fromNote?ev.originPage:ev.page);
+      if(navPage&&navPage!=='main') row.addEventListener('click',e=>{ e.stopPropagation(); showPage(navPage); });
+      panel.appendChild(row);
+    });
+  }
 
   const addBtn=document.createElement('button'); addBtn.className='cal-add-btn'; addBtn.textContent='+ Add event for '+M3[calMo]+' '+calSel+'...';
   addBtn.addEventListener('click',e=>{ e.stopPropagation(); showCalAddPopup(); }); panel.appendChild(addBtn);
 }
 
 // ── SETTINGS ──
+function applyDarkMode(dark){
+  document.documentElement.setAttribute('data-theme', dark?'dark':'');
+  const pill=document.getElementById('dark-pill');
+  const dot=document.getElementById('dark-dot');
+  if(pill){ pill.style.background=dark?'#e8e4db':'rgba(0,0,0,0.12)'; }
+  if(dot){ dot.style.left=dark?'20px':'2px'; dot.style.background=dark?'#141412':'var(--bg)'; }
+}
+
+function toggleDarkMode(){
+  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+  const newDark=!isDark;
+  applyDarkMode(newDark);
+  try{ localStorage.setItem('mnemo_dark', newDark?'1':'0'); } catch(e){}
+}
+
+// Load dark mode preference
+(function(){
+  try{ if(localStorage.getItem('mnemo_dark')==='1'){ applyDarkMode(true); } } catch(e){}
+})();
+
 function renderSettings(){
   const c=document.getElementById('set-names'); c.innerHTML='';
   COLOR_PAGES.forEach(p=>{ const row=document.createElement('div'); row.className='set-row'; const dot=document.createElement('div'); dot.className='set-dot'; dot.style.background=COLORS[p]; const inp=document.createElement('input'); inp.className='set-inp'; inp.type='text'; inp.placeholder='Name this page...'; inp.value=pageNames[p]; inp.maxLength=24; inp.addEventListener('input',()=>{ pageNames[p]=inp.value.trim(); updatePageTitles(); saveState(); }); row.appendChild(dot); row.appendChild(inp); c.appendChild(row); });
+  // Wire dark mode toggle
+  const dmRow=document.getElementById('dark-mode-row');
+  if(dmRow){ dmRow.addEventListener('click',()=>{ toggleDarkMode(); renderSettings(); }); }
+  // Sync pill state
+  applyDarkMode(document.documentElement.getAttribute('data-theme')==='dark');
+
+  // Wire clear all data button
+  const clearBtn=document.getElementById('clear-all-btn');
+  if(clearBtn){
+    clearBtn.onclick=()=>{
+      if(!confirm('Clear all notes, page names and calendar events? This cannot be undone.')) return;
+      NOTE_PAGES.forEach(p=>{ notes[p]=[]; });
+      COLOR_PAGES.forEach(p=>{ pageNames[p]=''; });
+      calEvs.length=0;
+      localStorage.removeItem('mnemo_notes');
+      localStorage.removeItem('mnemo_pageNames');
+      localStorage.removeItem('mnemo_calEvs');
+      localStorage.removeItem('mnemo_onboarded');
+      localStorage.removeItem('mnemo_mem_onboarded');
+      NOTE_PAGES.forEach(p=>renderNotes(p));
+      updatePageTitles();
+      renderCal();
+      goHome();
+      alert('All data cleared.');
+    };
+  }
 }
 </script>
 </body>
